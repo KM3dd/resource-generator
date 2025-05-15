@@ -2,12 +2,35 @@ package k8s_manager
 
 import (
 	context "context"
+	"fmt"
+	"os"
+	"path/filepath"
 
 	types "github.com/KM3dd/resource-generator/internal/types"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
+	"k8s.io/client-go/tools/clientcmd"
 )
+
+// createKubernetesClient creates a Kubernetes client
+func createKubernetesClient() (*kubernetes.Clientset, error) {
+	// Try to load from kubeconfig first
+	kubeconfig := filepath.Join(os.Getenv("HOME"), ".kube", "config")
+	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
+
+	// If kubeconfig fails, try in-cluster configuration
+	if err != nil {
+		config, err = rest.InClusterConfig()
+		if err != nil {
+			return nil, fmt.Errorf("error loading Kubernetes configuration: %v", err)
+		}
+	}
+
+	// Create the clientset
+	return kubernetes.NewForConfig(config)
+}
 
 // createPod creates a Kubernetes pod
 func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {

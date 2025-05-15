@@ -13,6 +13,8 @@ import (
 	"k8s.io/client-go/kubernetes"
 )
 
+type Resource_generator types.Resource_generator
+
 func NewResourceGenerator(
 	FileName string,
 	kubeClient *kubernetes.Clientset,
@@ -26,8 +28,8 @@ func NewResourceGenerator(
 	return r, nil
 }
 
-// watchFile monitors the specified file for pod creation and deletion instructions
-func watchFile(clientset *kubernetes.Clientset, filePath string) {
+// watchFile monitors the specified file for pod creation and deletion
+func (r *Resource_generator) watchFile(clientset *kubernetes.Clientset, filePath string) {
 	for {
 		file, err := os.Open(filePath)
 		if err != nil {
