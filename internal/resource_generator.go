@@ -18,9 +18,9 @@ type Resource_generator types.Resource_generator
 func NewResourceGenerator(
 	FileName string,
 	kubeClient *kubernetes.Clientset,
-) (*types.Resource_generator, error) {
+) (*Resource_generator, error) {
 
-	r := &types.Resource_generator{
+	r := &Resource_generator{
 		FileName:   FileName,
 		KubeClient: kubeClient,
 	}
@@ -29,9 +29,9 @@ func NewResourceGenerator(
 }
 
 // watchFile monitors the specified file for pod creation and deletion
-func (r *Resource_generator) watchFile(clientset *kubernetes.Clientset, filePath string) {
+func (r *Resource_generator) WatchFile() {
 	for {
-		file, err := os.Open(filePath)
+		file, err := os.Open(r.FileName)
 		if err != nil {
 			log.Printf("Error opening file: %v", err)
 			time.Sleep(5 * time.Second)
@@ -51,7 +51,7 @@ func (r *Resource_generator) watchFile(clientset *kubernetes.Clientset, filePath
 			// Create pod at specified creation time
 			go func(pod types.PodInfo) {
 				time.Sleep(time.Until(pod.CreationTime))
-				err := k8s_manager.CreatePod(clientset, pod)
+				err := k8s_manager.CreatePod(r.KubeClient, pod)
 				if err != nil {
 					log.Printf("Error creating pod %s: %v", pod.Name, err)
 				}
@@ -60,7 +60,7 @@ func (r *Resource_generator) watchFile(clientset *kubernetes.Clientset, filePath
 			// Delete pod at specified deletion time
 			go func(pod types.PodInfo) {
 				time.Sleep(time.Until(pod.DeletionTime))
-				err := k8s_manager.DeletePod(clientset, pod)
+				err := k8s_manager.DeletePod(r.KubeClient, pod)
 				if err != nil {
 					log.Printf("Error deleting pod %s: %v", pod.Name, err)
 				}

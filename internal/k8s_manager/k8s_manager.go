@@ -15,7 +15,7 @@ import (
 )
 
 // createKubernetesClient creates a Kubernetes client
-func createKubernetesClient() (*kubernetes.Clientset, error) {
+func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 	// Try to load from kubeconfig first
 	kubeconfig := filepath.Join(os.Getenv("HOME"), ".kube", "config")
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
