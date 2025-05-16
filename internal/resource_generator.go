@@ -159,7 +159,7 @@ func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
 		}
 
 		// Parse duration (in minutes)
-		durationMinutes, err := strconv.Atoi(strings.TrimSpace(parts[3]))
+		durationSeconds, err := strconv.Atoi(strings.TrimSpace(parts[3]))
 		if err != nil {
 			return nil, fmt.Errorf("invalid duration at line %d: %v", lineNum, err)
 		}
@@ -168,12 +168,12 @@ func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
 			Name:         strings.TrimSpace(parts[0]),
 			Namespace:    strings.TrimSpace(parts[1]),
 			CreationTime: startTime,
-			Duration:     time.Duration(durationMinutes) * time.Minute,
+			Duration:     time.Duration(durationSeconds) * time.Second,
 		}
 
 		podInfos = append(podInfos, podInfo)
-		log.Printf("Read pod config: %s in namespace %s, start: %v, duration: %v minutes",
-			podInfo.Name, podInfo.Namespace, podInfo.CreationTime, durationMinutes)
+		log.Printf("Read pod config: %s in namespace %s, start: %v, duration: %v seconds",
+			podInfo.Name, podInfo.Namespace, podInfo.CreationTime, durationSeconds)
 	}
 
 	if err := scanner.Err(); err != nil {
