@@ -17,6 +17,6 @@ func main() {
 
 	log.Printf("Starting resource generation...")
 
-	r.WatchFile()
+	r.Generate()
 
 }

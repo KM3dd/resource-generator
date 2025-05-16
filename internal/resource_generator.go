@@ -2,10 +2,15 @@ package resource_generator
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
+	"strconv"
 	"strings"
+	"sync"
+	"syscall"
 	"time"
 
 	"github.com/KM3dd/resource-generator/internal/k8s_manager"
@@ -28,53 +33,206 @@ func NewResourceGenerator(
 	return r, nil
 }
 
-// watchFile monitors the specified file for pod creation and deletion
-func (r *Resource_generator) WatchFile() {
-	for {
-		file, err := os.Open(r.FileName)
-		if err != nil {
-			log.Printf("Error opening file: %v", err)
-			time.Sleep(5 * time.Second)
+func (r *Resource_generator) Generate() {
+
+	podInfos, err := readPodConfigFile(r.FileName)
+	if err != nil {
+		log.Fatalf("Error reading pod config file: %v", err)
+	}
+
+	log.Printf("Read %d pod configurations from %s", len(podInfos), r.FileName)
+
+	// Create context for graceful shutdown
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+
+	// Handle graceful shutdown
+	go handleShutdown(cancel)
+
+	// Schedule pod creation and deletion
+	var wg sync.WaitGroup
+	for _, podInfo := range podInfos {
+		wg.Add(1)
+		go func(info types.PodInfo) {
+			defer wg.Done()
+			managePod(ctx, r.KubeClient, info)
+		}(podInfo)
+	}
+
+}
+
+// managePod handles creating and deleting a pod based on its schedule
+func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo types.PodInfo) {
+	podKey := fmt.Sprintf("%s/%s", podInfo.Namespace, podInfo.Name)
+
+	// Calculate start and end times
+	now := time.Now()
+	waitForStart := time.Until(podInfo.CreationTime)
+	endTime := podInfo.CreationTime.Add(podInfo.Duration)
+	//waitForEnd := time.Until(endTime)
+
+	// Check if pod should be created at all
+	if endTime.Before(now) {
+		log.Printf("Pod %s scheduled end time is in the past, skipping", podKey)
+		return
+	}
+
+	// If start time is in the past but end time is in the future, create now
+	if podInfo.CreationTime.Before(now) {
+		log.Printf("Pod %s scheduled start time is in the past, creating now", podKey)
+		waitForStart = 0
+	}
+
+	// Wait until start time
+	if waitForStart > 0 {
+		log.Printf("Waiting %v to create pod %s", waitForStart, podKey)
+		select {
+		case <-time.After(waitForStart):
+			log.Printf("Time to create pod %s", podKey)
+		case <-ctx.Done():
+			log.Printf("Context cancelled while waiting to create pod %s", podKey)
+			return
+		}
+	}
+
+	// Create pod
+	err := k8s_manager.CreatePod(clientset, podInfo)
+	if err != nil {
+		log.Printf("Error creating pod %s: %v", podKey, err)
+		return
+	}
+	log.Printf("Pod %s created successfully", podKey)
+
+	// Wait until end time
+	endWait := time.Until(endTime)
+	log.Printf("Waiting %v to delete pod %s", endWait, podKey)
+	select {
+	case <-time.After(endWait):
+		log.Printf("Time to delete pod %s", podKey)
+	case <-ctx.Done():
+		log.Printf("Context cancelled while waiting to delete pod %s", podKey)
+		return
+	}
+
+	// Delete pod
+	err = k8s_manager.DeletePod(clientset, podInfo)
+	if err != nil {
+		log.Printf("Error deleting pod %s: %v", podKey, err)
+		return
+	}
+	log.Printf("Pod %s deleted successfully", podKey)
+}
+
+// readPodConfigFile reads pod configurations from a file
+// Format: PodName,Namespace,StartTime,Duration(in minutes)
+func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		return nil, fmt.Errorf("error opening file: %v", err)
+	}
+	defer file.Close()
+
+	var podInfos []types.PodInfo
+	scanner := bufio.NewScanner(file)
+	lineNum := 0
+
+	for scanner.Scan() {
+		lineNum++
+		line := strings.TrimSpace(scanner.Text())
+
+		// Skip empty lines and comments
+		if line == "" || strings.HasPrefix(line, "#") {
 			continue
 		}
-		defer file.Close()
 
-		scanner := bufio.NewScanner(file)
-		for scanner.Scan() {
-			line := scanner.Text()
-			podInfo, err := parsePodInfo(line)
-			if err != nil {
-				log.Printf("Error parsing pod info: %v", err)
-				continue
-			}
-
-			// Create pod at specified creation time
-			go func(pod types.PodInfo) {
-				log.Printf("Pod creation time is : %v", pod.CreationTime)
-				time.Sleep(time.Until(pod.CreationTime))
-				err := k8s_manager.CreatePod(r.KubeClient, pod)
-				if err != nil {
-					log.Printf("Error creating pod %s: %v", pod.Name, err)
-				}
-			}(podInfo)
-
-			// Delete pod at specified deletion time
-			go func(pod types.PodInfo) {
-				time.Sleep(time.Until(pod.DeletionTime))
-				err := k8s_manager.DeletePod(r.KubeClient, pod)
-				if err != nil {
-					log.Printf("Error deleting pod %s: %v", pod.Name, err)
-				}
-			}(podInfo)
+		parts := strings.Split(line, ",")
+		if len(parts) != 4 {
+			return nil, fmt.Errorf("invalid format at line %d, expected 4 fields but got %d", lineNum, len(parts))
 		}
 
-		if err := scanner.Err(); err != nil {
-			log.Printf("Error reading file: %v", err)
+		// Parse start time
+		startTime, err := time.Parse(time.RFC3339, strings.TrimSpace(parts[2]))
+		if err != nil {
+			return nil, fmt.Errorf("invalid start time at line %d: %v", lineNum, err)
 		}
 
-		// Wait before checking the file again
-		time.Sleep(5 * time.Second)
+		// Parse duration (in minutes)
+		durationMinutes, err := strconv.Atoi(strings.TrimSpace(parts[3]))
+		if err != nil {
+			return nil, fmt.Errorf("invalid duration at line %d: %v", lineNum, err)
+		}
+
+		podInfo := types.PodInfo{
+			Name:         strings.TrimSpace(parts[0]),
+			Namespace:    strings.TrimSpace(parts[1]),
+			CreationTime: startTime,
+			Duration:     time.Duration(durationMinutes) * time.Minute,
+		}
+
+		podInfos = append(podInfos, podInfo)
+		log.Printf("Read pod config: %s in namespace %s, start: %v, duration: %v minutes",
+			podInfo.Name, podInfo.Namespace, podInfo.CreationTime, durationMinutes)
 	}
+
+	if err := scanner.Err(); err != nil {
+		return nil, fmt.Errorf("error reading file: %v", err)
+	}
+
+	return podInfos, nil
+}
+
+// watchFile monitors the specified file for pod creation and deletion
+func (r *Resource_generator) WatchFile() {
+	file, err := os.Open(r.FileName)
+	if err != nil {
+		log.Printf("Error opening file: %v", err)
+		time.Sleep(5 * time.Second)
+
+	}
+	defer file.Close()
+
+	reader := bufio.NewReader(file)
+	for {
+		line, _ := reader.ReadString('\n')
+		podInfo, err := parsePodInfo(line)
+		if err != nil {
+			log.Printf("Error parsing pod info: %v", err)
+			continue
+		}
+
+		// Create pod at specified creation time
+		go func(pod types.PodInfo) {
+			log.Printf("Pod creation time is : %v", pod.CreationTime)
+
+			err := k8s_manager.CreatePod(r.KubeClient, pod)
+			if err != nil {
+				log.Printf("Error creating pod %s: %v", pod.Name, err)
+			}
+		}(podInfo)
+
+		// Delete pod at specified deletion time
+		go func(pod types.PodInfo) {
+			//			time.Sleep(time.Until(pod.Duration))
+			err := k8s_manager.DeletePod(r.KubeClient, pod)
+			if err != nil {
+				log.Printf("Error deleting pod %s: %v", pod.Name, err)
+			}
+		}(podInfo)
+	}
+
+	// Wait before checking the file again
+	//time.Sleep(5 * time.Second)
+
+}
+
+func handleShutdown(cancel context.CancelFunc) {
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+
+	<-sigChan
+	log.Println("Received shutdown signal. Cleaning up...")
+	cancel()
+	os.Exit(0)
 }
 
 // parsePodInfo parses a line from the file into PodInfo
@@ -90,7 +248,7 @@ func parsePodInfo(line string) (types.PodInfo, error) {
 		return types.PodInfo{}, fmt.Errorf("invalid creation time: %v", err)
 	}
 
-	deletionTime, err := time.Parse(time.RFC3339, parts[3])
+	durationSeconds, err := strconv.Atoi(strings.TrimSpace(parts[3]))
 	if err != nil {
 		return types.PodInfo{}, fmt.Errorf("invalid deletion time: %v", err)
 	}
@@ -99,6 +257,6 @@ func parsePodInfo(line string) (types.PodInfo, error) {
 		Name:         parts[0],
 		Namespace:    parts[1],
 		CreationTime: creationTime,
-		DeletionTime: deletionTime,
+		Duration:     time.Duration(durationSeconds) * time.Second,
 	}, nil
 }

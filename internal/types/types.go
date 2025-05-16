@@ -10,7 +10,7 @@ type PodInfo struct {
 	Name         string
 	Namespace    string
 	CreationTime time.Time
-	DeletionTime time.Time
+	Duration     time.Duration
 }
 
 type Resource_generator struct {
