@@ -50,6 +50,7 @@ func (r *Resource_generator) WatchFile() {
 
 			// Create pod at specified creation time
 			go func(pod types.PodInfo) {
+				log.Printf("Pod creation time is : %v", pod.CreationTime)
 				time.Sleep(time.Until(pod.CreationTime))
 				err := k8s_manager.CreatePod(r.KubeClient, pod)
 				if err != nil {
