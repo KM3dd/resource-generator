@@ -65,13 +65,13 @@ func (r *Resource_generator) Generate() {
 
 // managePod handles creating and deleting a pod based on its schedule
 func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo types.PodInfo) {
-	podKey := fmt.Sprintf("Starting to manage %s/%s", podInfo.Namespace, podInfo.Name)
 
 	// Calculate start and end times
 	now := time.Now()
 	waitForStart := time.Until(podInfo.CreationTime)
 	endTime := podInfo.CreationTime.Add(podInfo.Duration)
 	//waitForEnd := time.Until(endTime)
+	podKey := fmt.Sprintf("Starting to manage %s/%s ... wait for start is %v", podInfo.Namespace, podInfo.Name, waitForStart)
 
 	// Check if pod should be created at all
 	if endTime.Before(now) {
