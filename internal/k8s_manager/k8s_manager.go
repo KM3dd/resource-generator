@@ -45,7 +45,7 @@ func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
 	job := &batchv1.Job{
-		ObjectMeta: metav1meta.ObjectMeta{
+		ObjectMeta: metav1.ObjectMeta{
 			Name: podInfo.Name,
 		},
 		Spec: batchv1.JobSpec{
