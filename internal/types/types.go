@@ -9,8 +9,9 @@ import (
 type PodInfo struct {
 	Name         string
 	Namespace    string
-	CreationTime time.Time
+	CreationTime time.Duration
 	Duration     time.Duration
+	Resource     string
 }
 
 type Resource_generator struct {

@@ -1,2 +1,2 @@
-web-pod,default,2024-05-16T14:56:00Z,60
-db-pod,default,2024-05-16T14:57:00Z,90
+web-pod,default,20,60
+db-pod,default,10,90

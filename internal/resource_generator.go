@@ -68,8 +68,9 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 
 	// Calculate start and end times
 	now := time.Now()
-	waitForStart := time.Until(podInfo.CreationTime)
-	endTime := podInfo.CreationTime.Add(podInfo.Duration)
+	timeOfStart := now.Add(time.Second * podInfo.CreationTime)
+	waitForStart := time.Until(timeOfStart)
+	endTime := timeOfStart.Add(podInfo.Duration)
 	//waitForEnd := time.Until(endTime)
 	podKey := fmt.Sprintf("Starting to manage %s/%s ... wait for start is %v", podInfo.Namespace, podInfo.Name, waitForStart)
 
@@ -80,7 +81,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	}
 
 	// If start time is in the past but end time is in the future, create now
-	if podInfo.CreationTime.Before(now) {
+	if timeOfStart.Before(now) {
 		log.Printf("Pod %s scheduled start time is in the past, creating now", podKey)
 		waitForStart = 0
 	}
