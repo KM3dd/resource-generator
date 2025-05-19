@@ -41,7 +41,7 @@ func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      podInfo.Name,
-			Namespace: podInfo.Namespace,
+			Namespace: "default",
 		},
 		Spec: corev1.PodSpec{
 			Containers: []corev1.Container{
@@ -50,9 +50,6 @@ func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 					Image: "nginx",
 					Resources: corev1.ResourceRequirements{
 						Limits: corev1.ResourceList{
-							corev1.ResourceName(resourceName): resource.MustParse("1"),
-						},
-						Requests: corev1.ResourceList{
 							corev1.ResourceName(resourceName): resource.MustParse("1"),
 						},
 					},
