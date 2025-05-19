@@ -3,13 +3,11 @@ package k8s_manager
 import (
 	context "context"
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 
 	types "github.com/KM3dd/resource-generator/internal/types"
 	corev1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -36,23 +34,16 @@ func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 
 // createPod creates a Kubernetes pod
 func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
-	resourceName := fmt.Sprintf("nvidia.com/mig-%s", podInfo.Resource)
-	log.Printf("Resource name is %v", resourceName)
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      podInfo.Name,
-			Namespace: "default",
+			Namespace: podInfo.Namespace,
 		},
 		Spec: corev1.PodSpec{
 			Containers: []corev1.Container{
 				{
 					Name:  podInfo.Name,
 					Image: "nginx",
-					Resources: corev1.ResourceRequirements{
-						Limits: corev1.ResourceList{
-							corev1.ResourceName(resourceName): resource.MustParse("1"),
-						},
-					},
 				},
 			},
 		},
