@@ -55,8 +55,8 @@ func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 					Containers: []corev1.Container{
 						{
 							Name:    "gpu-job",
-							Image:   "nvidia/cuda:12.2.0-base-ubuntu22.04", // Example CUDA image
-							Command: []string{"nvidia-smi"},                // Simple GPU command
+							Image:   "nvidia/cuda:12.2.0-base-ubuntu22.04",
+							Command: []string{"nvidia-smi"},
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{
 									"nvidia.com/mig-1g.5gb": resource.MustParse("1"),
