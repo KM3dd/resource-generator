@@ -20,12 +20,19 @@ func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 	kubeconfig := filepath.Join(os.Getenv("HOME"), ".kube", "config")
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfig)
 
+	if err != nil {
+		fmt.Errorf("Failed to load kubeconfig: %v", err)
+	}
 	// If kubeconfig fails, try in-cluster configuration
 	if err != nil {
 		config, err = rest.InClusterConfig()
 		if err != nil {
 			return nil, fmt.Errorf("error loading Kubernetes configuration: %v", err)
 		}
+	}
+	clientset, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		fmt.Errorf("Failed to create clientset: %v the clientset %v", err, clientset)
 	}
 
 	// Create the clientset
