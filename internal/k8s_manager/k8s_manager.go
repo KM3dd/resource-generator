@@ -9,6 +9,7 @@ import (
 	types "github.com/KM3dd/resource-generator/internal/types"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
+	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/rest"
@@ -44,7 +45,7 @@ func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
 	job := &batchv1.Job{
-		ObjectMeta: metav1.ObjectMeta{
+		ObjectMeta: metav1meta.ObjectMeta{
 			Name: podInfo.Name,
 		},
 		Spec: batchv1.JobSpec{
@@ -53,9 +54,17 @@ func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 					RestartPolicy: corev1.RestartPolicyOnFailure,
 					Containers: []corev1.Container{
 						{
-							Name:    "example",
-							Image:   "busybox",
-							Command: []string{"sh", "-c", "echo Hello from the Kubernetes Job! && sleep 30"},
+							Name:    "gpu-job",
+							Image:   "nvidia/cuda:12.2.0-base-ubuntu22.04", // Example CUDA image
+							Command: []string{"nvidia-smi"},                // Simple GPU command
+							Resources: corev1.ResourceRequirements{
+								Requests: corev1.ResourceList{
+									"nvidia.com/mig-1g.5gb": resource.MustParse("1"),
+								},
+								Limits: corev1.ResourceList{
+									"nvidia.com/mig-1g.5gb": resource.MustParse("1"),
+								},
+							},
 						},
 					},
 				},
