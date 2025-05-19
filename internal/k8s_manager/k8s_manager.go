@@ -41,6 +41,15 @@ func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 
 // createPod creates a Kubernetes pod
 func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
+
+	//debug trying to list ...
+	podList, listErr := clientset.CoreV1().Pods(podInfo.Namespace).List(context.Background(), metav1.ListOptions{})
+	if listErr != nil {
+		fmt.Printf("Warning: Cannot list pods in namespace %s: %v\n", podInfo.Namespace, listErr)
+	} else {
+		fmt.Printf("Successfully listed %d pods in namespace %s\n", len(podList.Items), podInfo.Namespace)
+	}
+
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      podInfo.Name,
