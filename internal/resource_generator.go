@@ -68,7 +68,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 
 	// Calculate start and end times
 	now := time.Now()
-	timeOfStart := now.Add(time.Second * podInfo.CreationTime)
+	timeOfStart := now.Add(podInfo.CreationTime)
 	waitForStart := time.Until(timeOfStart)
 	endTime := timeOfStart.Add(podInfo.Duration)
 	//waitForEnd := time.Until(endTime)
