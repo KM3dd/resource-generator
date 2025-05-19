@@ -154,7 +154,7 @@ func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
 		}
 
 		// Parse start time
-		startTime, err := time.Parse(time.RFC3339, strings.TrimSpace(parts[2]))
+		startTime, err := strconv.Atoi(strings.TrimSpace(parts[2]))
 		if err != nil {
 			return nil, fmt.Errorf("invalid start time at line %d: %v", lineNum, err)
 		}
@@ -168,7 +168,7 @@ func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
 		podInfo := types.PodInfo{
 			Name:         strings.TrimSpace(parts[0]),
 			Namespace:    strings.TrimSpace(parts[1]),
-			CreationTime: startTime,
+			CreationTime: time.Duration(startTime) * time.Second,
 			Duration:     time.Duration(durationSeconds) * time.Second,
 		}
 
@@ -246,7 +246,7 @@ func parsePodInfo(line string) (types.PodInfo, error) {
 		return types.PodInfo{}, fmt.Errorf("invalid pod info format")
 	}
 
-	creationTime, err := time.Parse(time.RFC3339, parts[2])
+	startTime, err := strconv.Atoi(strings.TrimSpace(parts[2]))
 	if err != nil {
 		return types.PodInfo{}, fmt.Errorf("invalid creation time: %v", err)
 	}
@@ -259,7 +259,7 @@ func parsePodInfo(line string) (types.PodInfo, error) {
 	return types.PodInfo{
 		Name:         parts[0],
 		Namespace:    parts[1],
-		CreationTime: creationTime,
+		CreationTime: time.Duration(startTime) * time.Second,
 		Duration:     time.Duration(durationSeconds) * time.Second,
 	}, nil
 }
