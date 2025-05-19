@@ -3,6 +3,7 @@ package k8s_manager
 import (
 	context "context"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 
@@ -36,6 +37,7 @@ func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 // createPod creates a Kubernetes pod
 func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 	resourceName := fmt.Sprintf("nvidia.com/mig-%s", podInfo.Resource)
+	log.Printf("Resource name is %v", resourceName)
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      podInfo.Name,
