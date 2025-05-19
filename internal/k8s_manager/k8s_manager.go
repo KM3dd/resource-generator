@@ -42,7 +42,7 @@ func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 }
 
 // createPod creates a Kubernetes pod
-func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
+func CreateJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
 	job := &batchv1.Job{
 		ObjectMeta: metav1.ObjectMeta{
@@ -80,10 +80,15 @@ func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 }
 
 // deletePod deletes a Kubernetes pod
-func DeletePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
-	return clientset.CoreV1().Pods(podInfo.Namespace).Delete(
+func DeleteJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
+
+	deletePolicy := metav1.DeletePropagationForeground
+	err := clientset.BatchV1().Jobs(podInfo.Namespace).Delete(
 		context.Background(),
 		podInfo.Name,
-		metav1.DeleteOptions{},
+		metav1.DeleteOptions{
+			PropagationPolicy: &deletePolicy,
+		},
 	)
+	return err
 }

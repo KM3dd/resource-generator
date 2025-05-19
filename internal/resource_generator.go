@@ -99,7 +99,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	}
 
 	// Create pod
-	err := k8s_manager.CreatePod(clientset, podInfo)
+	err := k8s_manager.CreateJob(clientset, podInfo)
 	if err != nil {
 		log.Printf("Error creating pod %s: %v", podKey, err)
 		return
@@ -118,7 +118,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	}
 
 	// Delete pod
-	err = k8s_manager.DeletePod(clientset, podInfo)
+	err = k8s_manager.DeleteJob(clientset, podInfo)
 	if err != nil {
 		log.Printf("Error deleting pod %s: %v", podKey, err)
 		return
@@ -207,7 +207,7 @@ func (r *Resource_generator) WatchFile() {
 		go func(pod types.PodInfo) {
 			log.Printf("Pod creation time is : %v", pod.CreationTime)
 
-			err := k8s_manager.CreatePod(r.KubeClient, pod)
+			err := k8s_manager.CreateJob(r.KubeClient, pod)
 			if err != nil {
 				log.Printf("Error creating pod %s: %v", pod.Name, err)
 			}
@@ -216,7 +216,7 @@ func (r *Resource_generator) WatchFile() {
 		// Delete pod at specified deletion time
 		go func(pod types.PodInfo) {
 			//			time.Sleep(time.Until(pod.Duration))
-			err := k8s_manager.DeletePod(r.KubeClient, pod)
+			err := k8s_manager.DeleteJob(r.KubeClient, pod)
 			if err != nil {
 				log.Printf("Error deleting pod %s: %v", pod.Name, err)
 			}
