@@ -37,7 +37,7 @@ func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 	pod := &corev1.Pod{
 		ObjectMeta: metav1.ObjectMeta{
 			Name:      podInfo.Name,
-			Namespace: podInfo.Namespace,
+			Namespace: "default",
 		},
 		Spec: corev1.PodSpec{
 			Containers: []corev1.Container{
