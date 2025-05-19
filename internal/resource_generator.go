@@ -72,7 +72,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	waitForStart := time.Until(timeOfStart)
 	endTime := timeOfStart.Add(podInfo.Duration)
 	//waitForEnd := time.Until(endTime)
-	podKey := fmt.Sprintf("Starting to manage %s/%s ... wait for start is %v", podInfo.Namespace, podInfo.Name, waitForStart)
+	podKey := fmt.Sprintf("Starting to manage %s/%s ... wait for start is %v", podInfo.Resource, podInfo.Name, waitForStart)
 
 	// Check if pod should be created at all
 	if endTime.Before(now) {
@@ -167,14 +167,14 @@ func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
 
 		podInfo := types.PodInfo{
 			Name:         strings.TrimSpace(parts[0]),
-			Namespace:    strings.TrimSpace(parts[1]),
+			Resource:     strings.TrimSpace(parts[1]),
 			CreationTime: time.Duration(startTime) * time.Second,
 			Duration:     time.Duration(durationSeconds) * time.Second,
 		}
 
 		podInfos = append(podInfos, podInfo)
-		log.Printf("Read pod config: %s in namespace %s, start: %v, duration: %v seconds",
-			podInfo.Name, podInfo.Namespace, podInfo.CreationTime, durationSeconds)
+		log.Printf("Read pod config: %s Resource %s, start: %v, duration: %v seconds",
+			podInfo.Name, podInfo.Resource, podInfo.CreationTime, durationSeconds)
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -258,7 +258,7 @@ func parsePodInfo(line string) (types.PodInfo, error) {
 
 	return types.PodInfo{
 		Name:         parts[0],
-		Namespace:    parts[1],
+		Resource:     parts[1],
 		CreationTime: time.Duration(startTime) * time.Second,
 		Duration:     time.Duration(durationSeconds) * time.Second,
 	}, nil

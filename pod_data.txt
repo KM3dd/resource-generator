@@ -1,2 +1,2 @@
-web-pod,default,20,60
-db-pod,default,10,90
+web-pod,1g.5gb,20,60
+db-pod,2g.10gb,10,90
