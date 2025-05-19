@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 
 	types "github.com/KM3dd/resource-generator/internal/types"
+	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -42,31 +43,31 @@ func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 // createPod creates a Kubernetes pod
 func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
-	//debug trying to list ...
-	podList, listErr := clientset.CoreV1().Pods(podInfo.Namespace).List(context.Background(), metav1.ListOptions{})
-	if listErr != nil {
-		fmt.Printf("Warning: Cannot list pods in namespace %s: %v\n", podInfo.Namespace, listErr)
-	} else {
-		fmt.Printf("Successfully listed %d pods in namespace %s\n", len(podList.Items), podInfo.Namespace)
-	}
-
-	pod := &corev1.Pod{
+	job := &batchv1.Job{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      podInfo.Name,
-			Namespace: "default",
+			Name: podInfo.Name,
 		},
-		Spec: corev1.PodSpec{
-			Containers: []corev1.Container{
-				{
-					Name:  podInfo.Name,
-					Image: "nginx",
+		Spec: batchv1.JobSpec{
+			Template: corev1.PodTemplateSpec{
+				Spec: corev1.PodSpec{
+					RestartPolicy: corev1.RestartPolicyOnFailure,
+					Containers: []corev1.Container{
+						{
+							Name:    "example",
+							Image:   "busybox",
+							Command: []string{"sh", "-c", "echo Hello from the Kubernetes Job! && sleep 30"},
+						},
+					},
 				},
 			},
 		},
 	}
 
-	_, err := clientset.CoreV1().Pods(podInfo.Namespace).Create(context.Background(), pod, metav1.CreateOptions{})
-	return err
+	_, err := clientset.BatchV1().Jobs("default").Create(context.TODO(), job, metav1.CreateOptions{})
+	if err != nil {
+		return fmt.Errorf("failed to create job: %w", err)
+	}
+	return nil
 }
 
 // deletePod deletes a Kubernetes pod
