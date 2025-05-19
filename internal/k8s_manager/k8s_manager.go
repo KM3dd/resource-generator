@@ -83,7 +83,7 @@ func CreateJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 func DeleteJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
 	deletePolicy := metav1.DeletePropagationForeground
-	err := clientset.BatchV1().Jobs(podInfo.Namespace).Delete(
+	err := clientset.BatchV1().Jobs("default").Delete(
 		context.Background(),
 		podInfo.Name,
 		metav1.DeleteOptions{
