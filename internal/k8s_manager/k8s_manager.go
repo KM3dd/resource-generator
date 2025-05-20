@@ -92,3 +92,8 @@ func DeleteJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 	)
 	return err
 }
+
+// watches until pod is ungated
+func WatchPodUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) bool {
+	return false
+}

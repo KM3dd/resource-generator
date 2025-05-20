@@ -106,6 +106,8 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	}
 	log.Printf("Pod %s created successfully", podKey)
 
+	// TODO : Add wait for pod to be ungated befor waiting until end time ...
+
 	// Wait until end time
 	endWait := time.Until(endTime)
 	log.Printf("Waiting %v to delete pod %s", endWait, podKey)
