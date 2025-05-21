@@ -5,10 +5,12 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	types "github.com/KM3dd/resource-generator/internal/types"
 	batchv1 "k8s.io/api/batch/v1"
 	corev1 "k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
@@ -96,6 +98,56 @@ func DeleteJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 }
 
 // watches until pod is ungated
-func WatchPodUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) bool {
+func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
+
+	watcher, err := clientset.CoreV1().Pods("default").Watch(context.Background(), metav1.ListOptions{
+		FieldSelector: fmt.Sprintf("metadata.name=%s", podInfo.Name),
+	})
+
+	if err != nil {
+		return fmt.Errorf("Something went wront when trying to setup watcher %v", err)
+	}
+
+	defer watcher.Stop()
+
+	for {
+		select {
+		case event, ok := <-watcher.ResultChan():
+			if !ok {
+				return fmt.Errorf("watch channel closed unexpectedly")
+			}
+
+			pod, ok := event.Object.(*v1.Pod)
+			if !ok {
+				continue // Skip if the object is not a pod
+			}
+
+			// Check if the pod is ungated
+			if !checkIfPodGatedByInstaSlice(pod) {
+				fmt.Sprintf("Pod %s is now ungated", podInfo.Name)
+				return nil
+			}
+		}
+	}
+
+	//return false
+}
+
+//func isUngated(pod *v1.Pod) bool {
+//	for _, conditions := range pod.Status.Conditions {
+//		if conditions.Type == v1.PodScheduled && conditions.Status == v1.ConditionFalse && conditions.Reason == "Gated" {
+//			return false
+//		}
+//	}
+//}
+
+func checkIfPodGatedByInstaSlice(pod *v1.Pod) bool {
+	for _, gate := range pod.Spec.SchedulingGates {
+		if gate.Name == "instaslice.redhat.com/accelerator" {
+			if pod.Status.Phase == v1.PodPending && strings.Contains(pod.Status.Conditions[0].Message, "blocked") {
+				return true
+			}
+		}
+	}
 	return false
 }

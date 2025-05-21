@@ -108,6 +108,8 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 
 	// TODO : Add wait for pod to be ungated befor waiting until end time ...
 
+	k8s_manager.WatchUntilUngated(clientset, podInfo)
+
 	// Wait until end time
 	endWait := time.Until(endTime)
 	log.Printf("Waiting %v to delete pod %s", endWait, podKey)
