@@ -72,7 +72,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	waitForStart := time.Until(timeOfStart)
 	endTime := timeOfStart.Add(podInfo.Duration)
 	//waitForEnd := time.Until(endTime)
-	podKey := fmt.Sprintf("Starting to manage %s/%s ... wait for start is %v", podInfo.Resource, podInfo.Name, waitForStart)
+	podKey := fmt.Sprintf("Starting to manage %s/%s", podInfo.Resource, podInfo.Name)
 
 	// Check if pod should be created at all
 	if endTime.Before(now) {

@@ -3,6 +3,7 @@ package k8s_manager
 import (
 	context "context"
 	"fmt"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -107,7 +108,7 @@ func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) e
 
 	// If pod is already ungated, return immediately
 	if !checkIfPodGatedByInstaSlice(pod) {
-		fmt.Printf("Pod %s is already ungated, no need to watch", podInfo.Name)
+		log.Printf("Pod %s is already ungated, no need to watch ", podInfo.Name)
 		return nil
 	}
 
@@ -136,7 +137,7 @@ func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) e
 
 			// Check if the pod is ungated
 			if !checkIfPodGatedByInstaSlice(pod) {
-				fmt.Sprintf("Pod %s is now ungated", podInfo.Name)
+				log.Printf("Pod %s is now ungated", podInfo.Name)
 				return nil
 			}
 		}
