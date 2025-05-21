@@ -98,6 +98,10 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 		}
 	}
 
+	// TODO : Add wait for pod to be ungated befor waiting until end time ...
+
+	k8s_manager.WatchUntilUngated(clientset, podInfo)
+
 	// Create pod
 	err := k8s_manager.CreateJob(clientset, podInfo)
 	if err != nil {
@@ -105,10 +109,6 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 		return
 	}
 	log.Printf("Pod %s created successfully", podKey)
-
-	// TODO : Add wait for pod to be ungated befor waiting until end time ...
-
-	k8s_manager.WatchUntilUngated(clientset, podInfo)
 
 	// Wait until end time
 	endWait := time.Until(endTime)
