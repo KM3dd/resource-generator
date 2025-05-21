@@ -190,13 +190,13 @@ func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 		},
 	}
 
-	_, err := clientset.CoreV1().Pods(podInfo.Namespace).Create(context.TODO(), pod, metav1.CreateOptions{})
+	_, err := clientset.CoreV1().Pods("default").Create(context.TODO(), pod, metav1.CreateOptions{})
 	return err
 }
 
 // deletePod deletes a Kubernetes pod
 func DeletePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
-	return clientset.CoreV1().Pods(podInfo.Namespace).Delete(
+	return clientset.CoreV1().Pods("default").Delete(
 		context.TODO(),
 		podInfo.Name,
 		metav1.DeleteOptions{},
