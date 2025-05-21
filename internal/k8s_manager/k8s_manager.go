@@ -100,6 +100,18 @@ func DeleteJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 // watches until pod is ungated
 func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
+	pod, err := clientset.CoreV1().Pods("default").Get(context.Background(), podInfo.Name, metav1.GetOptions{})
+	if err != nil {
+		return fmt.Errorf("error getting pod details: %v", err)
+	}
+
+	// If pod is already ungated, return immediately
+	if !checkIfPodGatedByInstaSlice(pod) {
+		fmt.Printf("Pod %s is already ungated, no need to watch", podInfo.Name)
+		return nil
+	}
+
+	// Else : setup the watcher
 	watcher, err := clientset.CoreV1().Pods("default").Watch(context.Background(), metav1.ListOptions{
 		FieldSelector: fmt.Sprintf("metadata.name=%s", podInfo.Name),
 	})
