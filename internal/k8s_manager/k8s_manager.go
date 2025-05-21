@@ -100,7 +100,7 @@ func DeleteJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 // watches until pod is ungated
 func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
-	labelSelector := fmt.Sprintf("batch.kubernetes.io/job-name=%s", podInfo.Name)
+	labelSelector := fmt.Sprintf("job-name=%s", podInfo.Name)
 
 	log.Printf("Starting to check if pod is gated : %v", podInfo.Name)
 	pod, err := clientset.CoreV1().Pods("default").List(context.TODO(), metav1.ListOptions{
