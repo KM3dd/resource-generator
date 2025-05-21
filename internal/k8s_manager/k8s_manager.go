@@ -44,6 +44,8 @@ func CreateKubernetesClient() (*kubernetes.Clientset, error) {
 // createPod creates a Kubernetes pod
 func CreateJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
+	resourceName := fmt.Sprintf("nvidia.com/mig-%s", podInfo.Resource)
+
 	job := &batchv1.Job{
 		ObjectMeta: metav1.ObjectMeta{
 			Name: podInfo.Name,
@@ -54,15 +56,15 @@ func CreateJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 					RestartPolicy: corev1.RestartPolicyOnFailure,
 					Containers: []corev1.Container{
 						{
-							Name:    "gpu-job",
+							Name:    podInfo.Name,
 							Image:   "nvidia/cuda:12.2.0-base-ubuntu22.04",
 							Command: []string{"nvidia-smi"},
 							Resources: corev1.ResourceRequirements{
 								Requests: corev1.ResourceList{
-									"nvidia.com/mig-1g.5gb": resource.MustParse("1"),
+									corev1.ResourceName(resourceName): resource.MustParse("1"),
 								},
 								Limits: corev1.ResourceList{
-									"nvidia.com/mig-1g.5gb": resource.MustParse("1"),
+									corev1.ResourceName(resourceName): resource.MustParse("1"),
 								},
 							},
 						},
