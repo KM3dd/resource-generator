@@ -100,21 +100,25 @@ func DeleteJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 // watches until pod is ungated
 func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
+	labelSelector := fmt.Sprintf("batch.kubernetes.io/job-name=%s", podInfo.Name)
+
 	log.Printf("Starting to check if pod is gated : %v", podInfo.Name)
-	pod, err := clientset.CoreV1().Pods("").Get(context.TODO(), podInfo.Name, metav1.GetOptions{})
+	pod, err := clientset.CoreV1().Pods("default").List(context.TODO(), metav1.ListOptions{
+		LabelSelector: labelSelector,
+	})
 	if err != nil {
 		return fmt.Errorf("error getting pod details: %v", err)
 	}
 
 	// If pod is already ungated, return immediately
-	if !checkIfPodGatedByInstaSlice(pod) {
+	if !checkIfPodGatedByInstaSlice(&pod.Items[0]) {
 		log.Printf("Pod %s is already ungated, no need to watch ", podInfo.Name)
 		return nil
 	}
 
 	// Else : setup the watcher
 	watcher, err := clientset.CoreV1().Pods("default").Watch(context.TODO(), metav1.ListOptions{
-		FieldSelector: fmt.Sprintf("metadata.name=%s", podInfo.Name),
+		LabelSelector: labelSelector,
 	})
 
 	if err != nil {

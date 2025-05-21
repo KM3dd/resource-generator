@@ -15,7 +15,6 @@ import (
 
 	"github.com/KM3dd/resource-generator/internal/k8s_manager"
 	types "github.com/KM3dd/resource-generator/internal/types"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
 
@@ -105,21 +104,11 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 		log.Printf("Error creating pod %s: %v", podKey, err)
 		return
 	}
-	log.Printf("Pod %s created successfully", podKey)
-
-	log.Printf("\n\nPod NAMMEEEE  %s \n\n", podInfo.Name)
 	// TODO : Add wait for pod to be ungated befor waiting until end time ...
 
-	pod, err := clientset.CoreV1().Pods("").Get(context.TODO(), podInfo.Name, metav1.GetOptions{})
+	//	pod, err := clientset.CoreV1().Pods("").Get(context.TODO(), podInfo.Name, metav1.GetOptions{})
 
-	if err != nil {
-		log.Printf("\n\nthere is err stupid  %v \n\n", err)
-	}
-
-	log.Printf("\n\n Here is that pod ========>> %v\n\n", pod)
 	k8s_manager.WatchUntilUngated(clientset, podInfo)
-
-	log.Printf("Pod %s is ungated", podKey)
 
 	// Wait until end time
 	endWait := time.Until(endTime)
