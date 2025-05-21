@@ -106,6 +106,8 @@ func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) e
 	pod, err := clientset.CoreV1().Pods("default").List(context.TODO(), metav1.ListOptions{
 		LabelSelector: labelSelector,
 	})
+
+	log.Printf("list of the pods : %v", pod.Items)
 	if err != nil {
 		return fmt.Errorf("error getting pod details: %v", err)
 	}
