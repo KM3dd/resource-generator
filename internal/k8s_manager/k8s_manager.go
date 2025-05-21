@@ -163,3 +163,42 @@ func checkIfPodGatedByInstaSlice(pod *v1.Pod) bool {
 
 	return false
 }
+
+// createPod creates a Kubernetes pod
+func CreatePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
+	resourceName := fmt.Sprintf("nvidia.com/mig-%s", podInfo.Resource)
+	pod := &corev1.Pod{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      podInfo.Name,
+			Namespace: "default",
+		},
+		Spec: corev1.PodSpec{
+			Containers: []corev1.Container{
+				{
+					Name:  podInfo.Name,
+					Image: "nginx",
+					Resources: corev1.ResourceRequirements{
+						Limits: corev1.ResourceList{
+							corev1.ResourceName(resourceName): resource.MustParse("1"),
+						},
+						Requests: corev1.ResourceList{
+							corev1.ResourceName(resourceName): resource.MustParse("1"),
+						},
+					},
+				},
+			},
+		},
+	}
+
+	_, err := clientset.CoreV1().Pods(podInfo.Namespace).Create(context.Background(), pod, metav1.CreateOptions{})
+	return err
+}
+
+// deletePod deletes a Kubernetes pod
+func DeletePod(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
+	return clientset.CoreV1().Pods(podInfo.Namespace).Delete(
+		context.Background(),
+		podInfo.Name,
+		metav1.DeleteOptions{},
+	)
+}

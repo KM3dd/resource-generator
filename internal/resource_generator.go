@@ -100,7 +100,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	}
 
 	// Create pod
-	err := k8s_manager.CreateJob(clientset, podInfo)
+	err := k8s_manager.CreatePod(clientset, podInfo)
 	if err != nil {
 		log.Printf("Error creating pod %s: %v", podKey, err)
 		return
@@ -126,7 +126,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	}
 
 	// Delete pod
-	err = k8s_manager.DeleteJob(clientset, podInfo)
+	err = k8s_manager.DeletePod(clientset, podInfo)
 	if err != nil {
 		log.Printf("Error deleting pod %s: %v", podKey, err)
 		return
