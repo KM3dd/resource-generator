@@ -100,7 +100,7 @@ func DeleteJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 // watches until pod is ungated
 func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
-	log.Printf("Starting to check if pod is gated")
+	log.Printf("Starting to check if pod is gated : %v", podInfo.Name)
 	pod, err := clientset.CoreV1().Pods("").Get(context.TODO(), podInfo.Name, metav1.GetOptions{})
 	if err != nil {
 		return fmt.Errorf("error getting pod details: %v", err)

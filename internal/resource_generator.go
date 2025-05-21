@@ -107,11 +107,12 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	}
 	log.Printf("Pod %s created successfully", podKey)
 
+	log.Printf("\n\nPod NAMMEEEE  %s \n\n", podInfo.Name)
 	// TODO : Add wait for pod to be ungated befor waiting until end time ...
 
 	pod, err := clientset.CoreV1().Pods("").Get(context.TODO(), podInfo.Name, metav1.GetOptions{})
 
-	log.Printf("\n\n Here is that pod ========>> %v", pod)
+	log.Printf("\n\n Here is that pod ========>> %v\n\n", pod)
 	k8s_manager.WatchUntilUngated(clientset, podInfo)
 
 	log.Printf("Pod %s is ungated", podKey)
