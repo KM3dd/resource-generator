@@ -15,8 +15,6 @@ import (
 
 	"github.com/KM3dd/resource-generator/internal/k8s_manager"
 	types "github.com/KM3dd/resource-generator/internal/types"
-	authenticationv1 "k8s.io/api/authentication/v1"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
 
@@ -68,15 +66,6 @@ func (r *Resource_generator) Generate() {
 // managePod handles creating and deleting a pod based on its schedule
 func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo types.PodInfo) {
 
-	log.Printf("Getting identity... ")
-	resp, err := clientset.AuthenticationV1().SelfSubjectReviews().Create(context.TODO(), &authenticationv1.SelfSubjectReview{}, metav1.CreateOptions{})
-	if err != nil {
-		log.Printf("failed to get identity: %w", err)
-	}
-
-	log.Printf("Authenticated user: %s\n", resp.Status.UserInfo.Username)
-	log.Printf("Groups: %v\n", resp.Status.UserInfo.Groups)
-
 	// Calculate start and end times
 	now := time.Now()
 	timeOfStart := now.Add(podInfo.CreationTime)
@@ -110,7 +99,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	}
 
 	// Create pod
-	err = k8s_manager.CreatePod(clientset, podInfo)
+	err := k8s_manager.CreatePod(clientset, podInfo)
 	if err != nil {
 		log.Printf("Error creating pod %s: %v", podKey, err)
 		return
@@ -119,9 +108,8 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 
 	//	pod, err := clientset.CoreV1().Pods("").Get(context.TODO(), podInfo.Name, metav1.GetOptions{})
 
-	pod, err := clientset.CoreV1().Pods("default").List(context.TODO(), metav1.ListOptions{})
+	//pod, err := clientset.CoreV1().Pods("default").List(context.TODO(), metav1.ListOptions{})
 
-	log.Printf("\n\nList of pods = %v  \n\n", pod.Items)
 	k8s_manager.WatchUntilUngated(clientset, podInfo)
 
 	// Wait until end time
