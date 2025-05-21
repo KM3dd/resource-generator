@@ -142,8 +142,8 @@ func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) e
 //}
 
 func checkIfPodGatedByInstaSlice(pod *v1.Pod) bool {
+	fmt.Printf("gates %v", pod.Spec.SchedulingGates)
 	for _, gate := range pod.Spec.SchedulingGates {
-		fmt.Printf("Gatename is %v", gate.Name)
 		if gate.Name == "instaslice.redhat.com/accelerator" {
 			if pod.Status.Phase == v1.PodPending && strings.Contains(pod.Status.Conditions[0].Message, "blocked") {
 				return true
