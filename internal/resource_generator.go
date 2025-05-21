@@ -15,6 +15,7 @@ import (
 
 	"github.com/KM3dd/resource-generator/internal/k8s_manager"
 	types "github.com/KM3dd/resource-generator/internal/types"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
 
@@ -108,6 +109,9 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 
 	//	pod, err := clientset.CoreV1().Pods("").Get(context.TODO(), podInfo.Name, metav1.GetOptions{})
 
+	pod, err := clientset.CoreV1().Pods("default").List(context.TODO(), metav1.ListOptions{})
+
+	log.Printf("\n\nList of pods = %v  \n\n", pod.Items)
 	k8s_manager.WatchUntilUngated(clientset, podInfo)
 
 	// Wait until end time
