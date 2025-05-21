@@ -113,7 +113,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	pod, err := clientset.CoreV1().Pods("").Get(context.TODO(), podInfo.Name, metav1.GetOptions{})
 
 	if err != nil {
-		log.Printf("\n\nthere is err stupid  %s \n\n", podInfo.Name)
+		log.Printf("\n\nthere is err stupid  %v \n\n", err)
 	}
 
 	log.Printf("\n\n Here is that pod ========>> %v\n\n", pod)
