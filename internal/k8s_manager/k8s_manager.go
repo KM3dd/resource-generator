@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"strings"
 
 	types "github.com/KM3dd/resource-generator/internal/types"
 	batchv1 "k8s.io/api/batch/v1"
@@ -101,6 +100,7 @@ func DeleteJob(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 // watches until pod is ungated
 func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) error {
 
+	log.Printf("Starting to check if pod is gated")
 	pod, err := clientset.CoreV1().Pods("default").Get(context.Background(), podInfo.Name, metav1.GetOptions{})
 	if err != nil {
 		return fmt.Errorf("error getting pod details: %v", err)
@@ -156,12 +156,10 @@ func WatchUntilUngated(clientset *kubernetes.Clientset, podInfo types.PodInfo) e
 
 func checkIfPodGatedByInstaSlice(pod *v1.Pod) bool {
 	fmt.Printf("gates %v", pod.Spec.SchedulingGates)
-	for _, gate := range pod.Spec.SchedulingGates {
-		if gate.Name == "instaslice.redhat.com/accelerator" {
-			if pod.Status.Phase == v1.PodPending && strings.Contains(pod.Status.Conditions[0].Message, "blocked") {
-				return true
-			}
-		}
+
+	if pod.Status.Conditions[0].Reason == v1.PodReasonSchedulingGated {
+		return true
 	}
+
 	return false
 }
