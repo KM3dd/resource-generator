@@ -15,6 +15,7 @@ import (
 
 	"github.com/KM3dd/resource-generator/internal/k8s_manager"
 	types "github.com/KM3dd/resource-generator/internal/types"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 )
 
@@ -108,6 +109,9 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 
 	// TODO : Add wait for pod to be ungated befor waiting until end time ...
 
+	pod, err := clientset.CoreV1().Pods("default").Get(context.Background(), podInfo.Name, metav1.GetOptions{})
+
+	log.Printf("\n\n Here is that pod ========>> %v", pod)
 	k8s_manager.WatchUntilUngated(clientset, podInfo)
 
 	log.Printf("Pod %s is ungated", podKey)
