@@ -13,10 +13,16 @@ func main() {
 	kubeconfig, _ := k8s_manager.CreateKubernetesClient()
 
 	filepath := os.Getenv("HOME") + "{user}/resource-generator/pod_data.txt"
+
 	r, _ := resource_generator.NewResourceGenerator(filepath, kubeconfig)
 
 	log.Printf("Starting resource generation...")
 
+	// launch metric collector
+
+	// go r.metricCollector
+
+	//launching generator
 	r.Generate()
 
 }
