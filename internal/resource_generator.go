@@ -3,6 +3,7 @@ package resource_generator
 import (
 	"bufio"
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -19,6 +20,8 @@ import (
 )
 
 type Resource_generator types.Resource_generator
+
+var fileMutex sync.Mutex
 
 func NewResourceGenerator(
 	FileName string,
@@ -134,7 +137,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	waitTime := WaitTimeEnd.Sub(waitTimeStart)
 	log.Printf("Storing wait time.. ")
 
-	WriteToFile("results.txt", waitTime, podInfo)
+	WriteToFile("results.json", waitTime, podInfo)
 
 }
 
@@ -196,8 +199,25 @@ func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
 	return podInfos, nil
 }
 
-func WriteToFile(fileName string, waitTime time.Duration, pod types.PodInfo) error {
-	panic("ayayayyayayaybzq<hkrf")
+func WriteToFile(filename string, waitTime time.Duration, pod types.PodInfo) error {
+	record := types.WaitTimeRecord{
+		PodName:   pod.Name,
+		WaitTime:  waitTime,
+		WaitMs:    waitTime.Milliseconds(),
+		Timestamp: time.Now(),
+	}
+
+	fileMutex.Lock()
+	defer fileMutex.Unlock()
+
+	file, err := os.OpenFile(filename, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	encoder := json.NewEncoder(file)
+	return encoder.Encode(record)
 }
 
 // watchFile monitors the specified file for pod creation and deletion
