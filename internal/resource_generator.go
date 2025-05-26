@@ -104,15 +104,14 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 		log.Printf("Error creating pod %s: %v", podKey, err)
 		return
 	}
-	// TODO : Add wait for pod to be ungated befor waiting until end time ...
-
-	//	pod, err := clientset.CoreV1().Pods("").Get(context.TODO(), podInfo.Name, metav1.GetOptions{})
-
-	//pod, err := clientset.CoreV1().Pods("default").List(context.TODO(), metav1.ListOptions{})
-
+	// wait for pod to be ungated befor waiting until end time ...
+	waitTimeStart := time.Now()
 	k8s_manager.WatchUntilUngated(clientset, podInfo)
 
-	endTime = time.Now().Add(podInfo.Duration)
+	//calculate wait time ..
+
+	WaitTimeEnd := time.Now()
+	endTime = WaitTimeEnd.Add(podInfo.Duration)
 	// Wait until end time
 	endWait := time.Until(endTime)
 	log.Printf("Waiting %v to delete pod %s", endWait, podKey)
@@ -131,6 +130,12 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 		return
 	}
 	log.Printf("Pod %s deleted successfully", podKey)
+
+	waitTime := WaitTimeEnd.Sub(waitTimeStart)
+	log.Printf("Storing wait time.. ")
+
+	WriteToFile("results.txt", waitTime, podInfo)
+
 }
 
 // readPodConfigFile reads pod configurations from a file
@@ -189,6 +194,10 @@ func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
 	}
 
 	return podInfos, nil
+}
+
+func WriteToFile(fileName string, waitTime time.Duration, pod types.PodInfo) error {
+	panic("ayayayyayayaybzq<hkrf")
 }
 
 // watchFile monitors the specified file for pod creation and deletion
