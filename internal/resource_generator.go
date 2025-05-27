@@ -114,10 +114,12 @@ func (r *Resource_generator) Generate() error {
 
 	avgWaitMs := float64(totalWaitMs) / float64(count)
 
-	fmt.Printf("Total Wait Time: %d ms\n", totalWaitMs)
-	fmt.Printf("Average Wait Time: %.2f ms\n", avgWaitMs)
-	fmt.Printf("Min Wait Time: %d ms\n", minWaitMs)
-	fmt.Printf("Max Wait Time: %d ms\n", maxWaitMs)
+	log.Printf("Total Wait Time: %d ms\n", totalWaitMs)
+	log.Printf("Average Wait Time: %.2f ms\n", avgWaitMs)
+	log.Printf("Min Wait Time: %d ms\n", minWaitMs)
+	log.Printf("Max Wait Time: %d ms\n", maxWaitMs)
+
+	return nil
 
 }
 
