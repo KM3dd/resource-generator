@@ -36,7 +36,7 @@ func NewResourceGenerator(
 	return r, nil
 }
 
-func (r *Resource_generator) Generate() {
+func (r *Resource_generator) Generate() error {
 
 	podInfos, err := readPodConfigFile(r.FileName)
 	if err != nil {
@@ -63,6 +63,61 @@ func (r *Resource_generator) Generate() {
 
 	}
 	wg.Wait()
+
+	log.Printf("Generation done ... writing overall results to results.json")
+
+	//calculating avg wait :
+
+	fileMutex.Lock()
+	defer fileMutex.Unlock()
+
+	file, err := os.Open("results.json")
+	if err != nil {
+		return err
+	}
+	defer file.Close()
+
+	var totalWaitMs int64
+	var minWaitMs int64 = -1
+	var maxWaitMs int64
+	var count int64
+
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		var entry types.WaitTimeRecord
+		err := json.Unmarshal(scanner.Bytes(), &entry)
+		if err != nil {
+			fmt.Println("Error parsing line:", err)
+			continue
+		}
+
+		wait := entry.WaitMs
+		totalWaitMs += wait
+		if minWaitMs == -1 || wait < minWaitMs {
+			minWaitMs = wait
+		}
+		if wait > maxWaitMs {
+			maxWaitMs = wait
+		}
+		count++
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Println("Error reading file:", err)
+		return err
+	}
+
+	if count == 0 {
+		fmt.Println("No entries found.")
+		return err
+	}
+
+	avgWaitMs := float64(totalWaitMs) / float64(count)
+
+	fmt.Printf("Total Wait Time: %d ms\n", totalWaitMs)
+	fmt.Printf("Average Wait Time: %.2f ms\n", avgWaitMs)
+	fmt.Printf("Min Wait Time: %d ms\n", minWaitMs)
+	fmt.Printf("Max Wait Time: %d ms\n", maxWaitMs)
 
 }
 
