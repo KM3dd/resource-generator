@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"sort"
 	"strconv"
 	"strings"
 	"sync"
@@ -37,12 +38,10 @@ func NewResourceGenerator(
 }
 
 func (r *Resource_generator) Generate() error {
-
 	podInfos, err := readPodConfigFile(r.FileName)
 	if err != nil {
 		log.Fatalf("Error reading pod config file: %v", err)
 	}
-
 	log.Printf("Read %d pod configurations from %s", len(podInfos), r.FileName)
 
 	// Create context for graceful shutdown
@@ -60,14 +59,12 @@ func (r *Resource_generator) Generate() error {
 			managePod(ctx, r.KubeClient, info)
 			wg.Done()
 		}(podInfo)
-
 	}
 	wg.Wait()
 
 	log.Printf("Generation done ... writing overall results to results.json")
 
-	//calculating avg wait :
-
+	// Calculate metrics including memory-based waiting times
 	fileMutex.Lock()
 	defer fileMutex.Unlock()
 
@@ -81,6 +78,14 @@ func (r *Resource_generator) Generate() error {
 	var minWaitMs int64 = -1
 	var maxWaitMs int64
 	var count int64
+
+	// Profile-based metrics (full profile name like "4g.20gb")
+	profileMetrics := make(map[string]struct {
+		totalWait int64
+		count     int64
+		minWait   int64
+		maxWait   int64
+	})
 
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
@@ -100,6 +105,34 @@ func (r *Resource_generator) Generate() error {
 			maxWaitMs = wait
 		}
 		count++
+
+		// Process profile-based metrics (full profile name)
+		resourceProfile := strings.ToLower(entry.Resource)
+
+		if profileMetric, exists := profileMetrics[resourceProfile]; exists {
+			profileMetric.totalWait += wait
+			profileMetric.count++
+			if profileMetric.minWait == -1 || wait < profileMetric.minWait {
+				profileMetric.minWait = wait
+			}
+			if wait > profileMetric.maxWait {
+				profileMetric.maxWait = wait
+			}
+			profileMetrics[resourceProfile] = profileMetric
+		} else {
+			// Create new profile metric entry
+			profileMetrics[resourceProfile] = struct {
+				totalWait int64
+				count     int64
+				minWait   int64
+				maxWait   int64
+			}{
+				totalWait: wait,
+				count:     1,
+				minWait:   wait,
+				maxWait:   wait,
+			}
+		}
 	}
 
 	if err := scanner.Err(); err != nil {
@@ -109,18 +142,69 @@ func (r *Resource_generator) Generate() error {
 
 	if count == 0 {
 		fmt.Println("No entries found.")
-		return err
+		return fmt.Errorf("no entries found")
 	}
 
 	avgWaitMs := float64(totalWaitMs) / float64(count)
 
+	// Log overall results
 	log.Printf("Total Wait Time: %d ms\n", totalWaitMs)
 	log.Printf("Average Wait Time: %.2f ms\n", avgWaitMs)
 	log.Printf("Min Wait Time: %d ms\n", minWaitMs)
 	log.Printf("Max Wait Time: %d ms\n", maxWaitMs)
 
-	return nil
+	// Write results to text file
+	resultsFile, err := os.OpenFile("results.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
+	if err != nil {
+		return fmt.Errorf("error opening results.txt: %v", err)
+	}
+	defer resultsFile.Close()
 
+	writer := bufio.NewWriter(resultsFile)
+	defer writer.Flush()
+
+	// Write timestamp
+	timestamp := time.Now().Format("2006-01-02 15:04:05")
+	fmt.Fprintf(writer, "\n=== Pod Generation Results - %s ===\n", timestamp)
+
+	// Write overall metrics
+	fmt.Fprintf(writer, "Overall Metrics:\n")
+	fmt.Fprintf(writer, "  Total Pods: %d\n", count)
+	fmt.Fprintf(writer, "  Total Wait Time: %d ms\n", totalWaitMs)
+	fmt.Fprintf(writer, "  Average Wait Time: %.2f ms\n", avgWaitMs)
+	fmt.Fprintf(writer, "  Min Wait Time: %d ms\n", minWaitMs)
+	fmt.Fprintf(writer, "  Max Wait Time: %d ms\n", maxWaitMs)
+
+	// Write profile-based metrics
+	fmt.Fprintf(writer, "\nProfile-Based Wait Time Metrics:\n")
+
+	// Sort profiles for consistent output
+	profiles := make([]string, 0, len(profileMetrics))
+	for profile := range profileMetrics {
+		profiles = append(profiles, profile)
+	}
+	sort.Strings(profiles)
+
+	for _, profile := range profiles {
+		metric := profileMetrics[profile]
+		avgProfileWait := float64(metric.totalWait) / float64(metric.count)
+
+		fmt.Fprintf(writer, "  Profile '%s':\n", profile)
+		fmt.Fprintf(writer, "    Count: %d pods\n", metric.count)
+		fmt.Fprintf(writer, "    Average Wait Time: %.2f ms\n", avgProfileWait)
+		fmt.Fprintf(writer, "    Min Wait Time: %d ms\n", metric.minWait)
+		fmt.Fprintf(writer, "    Max Wait Time: %d ms\n", metric.maxWait)
+		fmt.Fprintf(writer, "    Total Wait Time: %d ms\n", metric.totalWait)
+
+		// Log to console as well
+		log.Printf("Profile '%s' - Count: %d, Avg Wait: %.2f ms, Min: %d ms, Max: %d ms",
+			profile, metric.count, avgProfileWait, metric.minWait, metric.maxWait)
+	}
+
+	fmt.Fprintf(writer, "\n"+strings.Repeat("=", 50)+"\n")
+
+	log.Printf("Results written to results.txt")
+	return nil
 }
 
 // managePod handles creating and deleting a pod based on its schedule
@@ -259,6 +343,7 @@ func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
 func WriteToFile(filename string, waitTime time.Duration, pod types.PodInfo) error {
 	record := types.WaitTimeRecord{
 		PodName:   pod.Name,
+		Resource:  pod.Resource,
 		WaitTime:  waitTime,
 		WaitMs:    waitTime.Milliseconds(),
 		Timestamp: time.Now(),
