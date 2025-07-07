@@ -26,13 +26,17 @@ class MIGDataGenerator:
         
         # Duration ranges for different workload types (in seconds)
         self.duration_ranges = {
-            "short": (30, 180),      # 30s - 3min
-            "medium": (60, 300),     # 1min - 5min  
-            "long": (120, 600),      # 2min - 10min
+            "short": (30, 90),      # 30s - 1.5min
+            "medium": (90, 300),     # 1.5min - 5min  
+            "long": (300, 600),      # 5min - 10min
         }
         
         # Workload type probabilities
-        self.workload_weights = [0.3, 0.5, 0.2]  # short, medium, long
+        self.workload_weights = {"1g.5gb":[0.6, 0.3, 0.1],
+                                 "2g.10gb":[0.5, 0.3, 0.2],
+                                 "3g.20gb":[0.4, 0.4, 0.2],
+                                 "4g.20gb":[0.3, 0.4, 0.3],
+                                 "7g.40gb":[0.2, 0.4, 0.4]}  # short, medium, long
     
     def calculate_num_pods(self, lambda_rate: float, time_span: int) -> int:
         """Calculate expected number of pods based on lambda rate and timespan"""
@@ -94,7 +98,7 @@ class MIGDataGenerator:
             
             # Select workload type and duration
             workload_type = random.choices(["short", "medium", "long"],
-                                         weights=self.workload_weights)[0]
+                                         weights=self.workload_weights[resource])[0]
             duration_range = self.duration_ranges[workload_type]
             duration = random.randint(*duration_range)
             
