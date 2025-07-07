@@ -14,7 +14,7 @@ func main() {
 
 	filename := os.Args[1]
 	filepath := os.Getenv("PWD") + "/" + filename
-
+	log.Printf("file path is %v", filepath)
 	r, _ := resource_generator.NewResourceGenerator(filepath, kubeconfig)
 
 	log.Printf("Starting resource generation...")
