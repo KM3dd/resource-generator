@@ -12,7 +12,8 @@ func main() {
 
 	kubeconfig, _ := k8s_manager.CreateKubernetesClient()
 
-	filepath := os.Getenv("HOME") + "{user}/resource-generator/pod_data.txt"
+	filename := os.Args[1]
+	filepath := os.Getenv("PWD") + "/" + filename
 
 	r, _ := resource_generator.NewResourceGenerator(filepath, kubeconfig)
 
