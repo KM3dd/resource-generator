@@ -20,9 +20,9 @@ type Resource_generator struct {
 }
 
 type WaitTimeRecord struct {
-	PodName   string        `json:"pod_name"`
-	Resource  string        `json:"pod_resource"`
-	WaitTime  time.Duration `json:"wait_time"`
-	WaitMs    int64         `json:"wait_ms"`
-	Timestamp time.Time     `json:"timestamp"`
+	PodName   string    `json:"pod_name"`
+	Resource  string    `json:"pod_resource"`
+	StartTime time.Time `json:"wait_time"`
+	WaitMs    int64     `json:"wait_ms"`
+	Timestamp time.Time `json:"timestamp"`
 }

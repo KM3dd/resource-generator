@@ -278,7 +278,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	waitTime := WaitTimeEnd.Sub(waitTimeStart)
 	log.Printf("Storing wait time.. ")
 
-	WriteToFile("results.json", waitTime, podInfo)
+	WriteToFile("results.json", waitTimeStart, WaitTimeEnd, waitTime, podInfo)
 
 }
 
@@ -340,13 +340,13 @@ func readPodConfigFile(filePath string) ([]types.PodInfo, error) {
 	return podInfos, nil
 }
 
-func WriteToFile(filename string, waitTime time.Duration, pod types.PodInfo) error {
+func WriteToFile(filename string, waitTimeStart time.Time, WaitTimeEnd time.Time, waitTime time.Duration, pod types.PodInfo) error {
 	record := types.WaitTimeRecord{
 		PodName:   pod.Name,
 		Resource:  pod.Resource,
-		WaitTime:  waitTime,
+		StartTime: waitTimeStart,
 		WaitMs:    waitTime.Milliseconds(),
-		Timestamp: time.Now(),
+		Timestamp: WaitTimeEnd,
 	}
 
 	fileMutex.Lock()
