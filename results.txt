@@ -967,5 +967,181 @@ Profile-Based Wait Time Metrics:
     Total Wait Time: 382311 ms
 
 ========================= Sort Sum 12 GPUs lambda 0.2 =========================
+start : 14:27:40 
+end : 14:44:36
 
 
+=== Pod Generation Results - 2025-07-11 14:44:36 ===
+Overall Metrics:
+  Total Pods: 72
+  Total Wait Time: 3356868 ms
+  Average Wait Time: 46623.17 ms
+  Min Wait Time: 150 ms
+  Max Wait Time: 145848 ms
+
+Profile-Based Wait Time Metrics:
+  Profile '1g.5gb':
+    Count: 30 pods
+    Average Wait Time: 39671.63 ms
+    Min Wait Time: 241 ms
+    Max Wait Time: 68795 ms
+    Total Wait Time: 1190149 ms
+  Profile '2g.10gb':
+    Count: 25 pods
+    Average Wait Time: 56238.28 ms
+    Min Wait Time: 150 ms
+    Max Wait Time: 145848 ms
+    Total Wait Time: 1405957 ms
+  Profile '3g.20gb':
+    Count: 6 pods
+    Average Wait Time: 39528.00 ms
+    Min Wait Time: 18390 ms
+    Max Wait Time: 55035 ms
+    Total Wait Time: 237168 ms
+  Profile '4g.20gb':
+    Count: 8 pods
+    Average Wait Time: 52313.00 ms
+    Min Wait Time: 2049 ms
+    Max Wait Time: 93298 ms
+    Total Wait Time: 418504 ms
+  Profile '7g.40gb':
+    Count: 3 pods
+    Average Wait Time: 35030.00 ms
+    Min Wait Time: 21013 ms
+    Max Wait Time: 50028 ms
+    Total Wait Time: 105090 ms
+
+========================= Sort Sum 10 GPUs lambda 0.2 =========================
+start : 14:58:29 
+end : 15:15:22
+
+=== Pod Generation Results - 2025-07-11 15:15:22 ===
+Overall Metrics:
+  Total Pods: 72
+  Total Wait Time: 3790322 ms
+  Average Wait Time: 52643.36 ms
+  Min Wait Time: 1307 ms
+  Max Wait Time: 178593 ms
+
+Profile-Based Wait Time Metrics:
+  Profile '1g.5gb':
+    Count: 30 pods
+    Average Wait Time: 39761.30 ms
+    Min Wait Time: 1655 ms
+    Max Wait Time: 82516 ms
+    Total Wait Time: 1192839 ms
+  Profile '2g.10gb':
+    Count: 25 pods
+    Average Wait Time: 55833.88 ms
+    Min Wait Time: 1307 ms
+    Max Wait Time: 168625 ms
+    Total Wait Time: 1395847 ms
+  Profile '3g.20gb':
+    Count: 6 pods
+    Average Wait Time: 46537.33 ms
+    Min Wait Time: 16591 ms
+    Max Wait Time: 96557 ms
+    Total Wait Time: 279224 ms
+  Profile '4g.20gb':
+    Count: 8 pods
+    Average Wait Time: 95640.12 ms
+    Min Wait Time: 2042 ms
+    Max Wait Time: 178593 ms
+    Total Wait Time: 765121 ms
+  Profile '7g.40gb':
+    Count: 3 pods
+    Average Wait Time: 52430.33 ms
+    Min Wait Time: 16303 ms
+    Max Wait Time: 92496 ms
+    Total Wait Time: 157291 ms
+
+=========================== Sort Sum 8 GPUs lambda 0.2 =======================
+
+Start : 15:19:37
+End : 15:37:43 
+
+=== Pod Generation Results - 2025-07-11 15:37:43 ===
+Overall Metrics:
+  Total Pods: 72
+  Total Wait Time: 5355232 ms
+  Average Wait Time: 74378.22 ms
+  Min Wait Time: 1326 ms
+  Max Wait Time: 250122 ms
+
+Profile-Based Wait Time Metrics:
+  Profile '1g.5gb':
+    Count: 30 pods
+    Average Wait Time: 39101.57 ms
+    Min Wait Time: 2549 ms
+    Max Wait Time: 78366 ms
+    Total Wait Time: 1173047 ms
+  Profile '2g.10gb':
+    Count: 25 pods
+    Average Wait Time: 102124.56 ms
+    Min Wait Time: 1326 ms
+    Max Wait Time: 239199 ms
+    Total Wait Time: 2553114 ms
+  Profile '3g.20gb':
+    Count: 6 pods
+    Average Wait Time: 47410.83 ms
+    Min Wait Time: 17882 ms
+    Max Wait Time: 97868 ms
+    Total Wait Time: 284465 ms
+  Profile '4g.20gb':
+    Count: 8 pods
+    Average Wait Time: 124198.00 ms
+    Min Wait Time: 2049 ms
+    Max Wait Time: 250122 ms
+    Total Wait Time: 993584 ms
+  Profile '7g.40gb':
+    Count: 3 pods
+    Average Wait Time: 117007.33 ms
+    Min Wait Time: 17082 ms
+    Max Wait Time: 224122 ms
+    Total Wait Time: 351022 ms
+
+====================== Sort Sum 5 GPUs lambda 0.2 ============================
+start : 07:49:01 
+end : 08:08:57 
+
+=== Pod Generation Results - 2025-07-15 08:08:57 ===
+Overall Metrics:
+  Total Pods: 72
+  Total Wait Time: 9859419 ms
+  Average Wait Time: 136936.38 ms
+  Min Wait Time: 1253 ms
+  Max Wait Time: 527853 ms
+
+Profile-Based Wait Time Metrics:
+  Profile '1g.5gb':
+    Count: 30 pods
+    Average Wait Time: 79298.90 ms
+    Min Wait Time: 6418 ms
+    Max Wait Time: 188666 ms
+    Total Wait Time: 2378967 ms
+  Profile '2g.10gb':
+    Count: 25 pods
+    Average Wait Time: 165655.80 ms
+    Min Wait Time: 1253 ms
+    Max Wait Time: 343751 ms
+    Total Wait Time: 4141395 ms
+  Profile '3g.20gb':
+    Count: 6 pods
+    Average Wait Time: 69476.00 ms
+    Min Wait Time: 35313 ms
+    Max Wait Time: 138454 ms
+    Total Wait Time: 416856 ms
+  Profile '4g.20gb':
+    Count: 8 pods
+    Average Wait Time: 322299.00 ms
+    Min Wait Time: 2044 ms
+    Max Wait Time: 527853 ms
+    Total Wait Time: 2578392 ms
+  Profile '7g.40gb':
+    Count: 3 pods
+    Average Wait Time: 114603.00 ms
+    Min Wait Time: 19280 ms
+    Max Wait Time: 214419 ms
+    Total Wait Time: 343809 ms
+
+==================================================
