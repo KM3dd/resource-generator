@@ -1,8 +1,6 @@
 import matplotlib.pyplot as plt
 import pandas as pd
-import numpy as np
-from collections import defaultdict
-
+import sys
 def parse_resource_sms(resource_str):
     """Extract SM count from resource string like '4g.20gb' -> 4"""
     return int(resource_str.split('g.')[0])
@@ -10,7 +8,7 @@ def parse_resource_sms(resource_str):
 def load_and_process_data(filename):
     """Load data from file and process it for visualization"""
     # Read the CSV file
-    df = pd.read_csv(filename, names=['pod_name', 'resource', 'start_time', 'end_time'])
+    df = pd.read_csv(filename, names=['pod_name', 'resource', 'start_time', 'duration'])
     
     # Extract SM count from resource string
     df['sms'] = df['resource'].apply(parse_resource_sms)
@@ -22,8 +20,9 @@ def create_timeline_data(df):
     # Get all unique time points where resources change
     time_points = set()
     for _, row in df.iterrows():
+        end_time= row['start_time'] + row['duration']
         time_points.add(row['start_time'])
-        time_points.add(row['end_time'])
+        time_points.add(end_time)
     
     time_points = sorted(time_points)
     
@@ -31,7 +30,8 @@ def create_timeline_data(df):
     timeline_data = []
     for time in time_points:
         # Find all active pods at this time
-        active_pods = df[(df['start_time'] <= time) & (df['end_time'] > time)]
+        
+        active_pods = df[(df['start_time'] <= time) & (df['start_time'] + df['duration'] > time)]
         total_sms = active_pods['sms'].sum()
         active_count = len(active_pods)
         
@@ -92,16 +92,17 @@ def create_gantt_chart(df):
     df_sorted = df.sort_values('start_time')
     
     for i, (_, row) in enumerate(df_sorted.iterrows()):
-        duration = row['end_time'] - row['start_time']
+        end_time= row['start_time'] + row['duration']
+        duration = end_time - row['start_time']
         color = sm_colors.get(row['sms'], '#6b7280')
         
         ax.barh(i, duration, left=row['start_time'], height=0.8, 
                 color=color, alpha=0.7, edgecolor='black', linewidth=0.5)
         
         # Add pod name if there's space
-        if duration > 20:  # Only show name if bar is wide enough
-            ax.text(row['start_time'] + duration/2, i, row['pod_name'], 
-                   ha='center', va='center', fontsize=6)
+        #if duration > 20:  # Only show name if bar is wide enough
+        ax.text(row['start_time'] + duration/2, i, row['pod_name'], 
+                ha='center', va='center', fontsize=6)
     
     ax.set_xlabel('Time', fontsize=12)
     ax.set_ylabel('Pod Index', fontsize=12)
@@ -119,7 +120,7 @@ def analyze_resource_usage(df, timeline_df):
     """Print detailed analysis of resource usage"""
     print("=== GPU Resource Usage Analysis ===")
     print(f"Total number of pods: {len(df)}")
-    print(f"Time range: {df['start_time'].min()} to {df['end_time'].max()}")
+    print(f"Time range: {df['start_time'].min()} to {df['duration'].max()+df['start_time'].min()}")
     print(f"Peak SM usage: {timeline_df['total_sms'].max()}")
     print(f"Average SM usage: {timeline_df['total_sms'].mean():.2f}")
     print(f"Peak concurrent pods: {timeline_df['active_pods'].max()}")
@@ -139,11 +140,11 @@ def analyze_resource_usage(df, timeline_df):
     for _, period in peak_periods.iterrows():
         print(f"Time {period['time']}: {period['total_sms']} SMs, {period['active_pods']} active pods")
 
-def main():
+def main(file_name):
     try:
         # Load and process data
         print("Loading data from file.txt...")
-        df = load_and_process_data('wkld31')
+        df = load_and_process_data(file_name)
         
         # Create timeline data
         print("Processing timeline data...")
@@ -166,8 +167,8 @@ def main():
         plt.show()
         
         # Save plots if needed
-        fig1.savefig('gpu_resource_timeline.png', dpi=300, bbox_inches='tight')
-        fig2.savefig('pod_gantt_chart.png', dpi=300, bbox_inches='tight')
+        fig1.savefig(f'{file_name}_resource_timeline.png', dpi=300, bbox_inches='tight')
+        fig2.savefig(f'{file_name}._gantt_chart.png', dpi=300, bbox_inches='tight')
         print("Plots saved as 'gpu_resource_timeline.png' and 'pod_gantt_chart.png'")
         
     except FileNotFoundError:
@@ -177,4 +178,5 @@ def main():
         print(f"Error: {e}")
 
 if __name__ == "__main__":
-    main()
+    file_name=sys.argv[1]
+    main(file_name)

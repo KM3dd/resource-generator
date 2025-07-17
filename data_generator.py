@@ -5,6 +5,7 @@ Generates synthetic data for simulating pod arrivals requesting MIG resources on
 """
 
 import csv
+import os
 import random
 import argparse
 import math
@@ -27,8 +28,8 @@ class MIGDataGenerator:
         # Duration ranges for different workload types (in seconds)
         self.duration_ranges = {
             "short": (30, 90),      # 30s - 1.5min
-            "medium": (90, 300),     # 1.5min - 5min  
-            "long": (300, 600),      # 5min - 10min
+            "medium": (90, 200),     # 1.5min - 5min  300 -> 200 
+            "long": (200, 400),      # 5min - 10min 200,400
         }
         
         # Workload type probabilities
@@ -164,4 +165,5 @@ def main():
         generator.print_data(data)
 
 if __name__ == "__main__":
+    #file_name = os.args
     main()
