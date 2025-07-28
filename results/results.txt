@@ -1101,3 +1101,44 @@ Profile-Based Wait Time Metrics:
     Total Wait Time: 98321 ms
 
 ======================= lambda 0.5 ===========================
+=== Pod Generation Results - 2025-07-23 13:29:38 ===
+Overall Metrics:
+  Total Pods: 268
+  Total Wait Time: 9625400 ms
+  Average Wait Time: 35915.67 ms
+  Min Wait Time: 379 ms
+  Max Wait Time: 737147 ms
+
+Profile-Based Wait Time Metrics:
+  Profile '1g.5gb':
+    Count: 102 pods
+    Average Wait Time: 37767.02 ms
+    Min Wait Time: 578 ms
+    Max Wait Time: 538895 ms
+    Total Wait Time: 3852236 ms
+  Profile '2g.10gb':
+    Count: 69 pods
+    Average Wait Time: 40605.74 ms
+    Min Wait Time: 1051 ms
+    Max Wait Time: 737147 ms
+    Total Wait Time: 2801796 ms
+  Profile '3g.20gb':
+    Count: 35 pods
+    Average Wait Time: 31090.06 ms
+    Min Wait Time: 379 ms
+    Max Wait Time: 60106 ms
+    Total Wait Time: 1088152 ms
+  Profile '4g.20gb':
+    Count: 46 pods
+    Average Wait Time: 29551.57 ms
+    Min Wait Time: 2535 ms
+    Max Wait Time: 58667 ms
+    Total Wait Time: 1359372 ms
+  Profile '7g.40gb':
+    Count: 16 pods
+    Average Wait Time: 32740.25 ms
+    Min Wait Time: 3243 ms
+    Max Wait Time: 59741 ms
+    Total Wait Time: 523844 ms
+
+==================================================
