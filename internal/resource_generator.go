@@ -278,7 +278,7 @@ func managePod(ctx context.Context, clientset *kubernetes.Clientset, podInfo typ
 	waitTime := WaitTimeEnd.Sub(waitTimeStart)
 	log.Printf("Storing wait time.. ")
 
-	WriteToFile("results.json", waitTimeStart, WaitTimeEnd, waitTime, podInfo)
+	WriteToFile("results.json", waitTimeStart, endTime, waitTime, podInfo)
 
 }
 
