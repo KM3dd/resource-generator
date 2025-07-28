@@ -346,7 +346,7 @@ func WriteToFile(filename string, waitTimeStart time.Time, WaitTimeEnd time.Time
 		Resource:  pod.Resource,
 		StartTime: waitTimeStart,
 		WaitMs:    waitTime.Milliseconds(),
-		Timestamp: WaitTimeEnd,
+		EndTime:   WaitTimeEnd,
 	}
 
 	fileMutex.Lock()

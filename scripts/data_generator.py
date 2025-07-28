@@ -28,8 +28,8 @@ class MIGDataGenerator:
         # Duration ranges for different workload types (in seconds)
         self.duration_ranges = {
             "short": (30, 90),      # 30s - 1.5min
-            "medium": (90, 200),     # 1.5min - 5min  300 -> 200 
-            "long": (200, 400),      # 5min - 10min 200,400
+            "medium": (90, 200),     # min - min  300 -> 200 
+            "long": (200, 400),      # min - min 200,400
         }
         
         # Workload type probabilities
