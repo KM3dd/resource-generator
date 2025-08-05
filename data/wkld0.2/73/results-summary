@@ -1,0 +1,91 @@
+wkld-1 80%
+
+Peak Usage:
+  Maximum SMs Used: 97
+  Maximum GPUs Needed: 14
+  Peak Occupancy: 173.2%
+
+During Active Periods:
+  Average Occupancy: 107.0%
+  Average Wasted SMs: 9.0
+
+Occupancy Distribution:
+  High (≥80%): 90 time periods
+  Medium (60-80%): 6 time periods
+  Low (<60%): 25 time periods
+
+==================================
+
+wkld-2 80%
+
+Peak Usage:
+  Maximum SMs Used: 127
+  Maximum GPUs Needed: 19
+  Peak Occupancy: 226.8%
+
+During Active Periods:
+  Average Occupancy: 130.0%
+  Average Wasted SMs: 8.6
+
+Occupancy Distribution:
+  High (≥80%): 96 time periods
+  Medium (60-80%): 8 time periods
+  Low (<60%): 23 time periods
+
+==================================
+
+wkld-3 80 % 
+
+Peak Usage:
+  Maximum SMs Used: 66
+  Maximum GPUs Needed: 10
+  Peak Occupancy: 117.9%
+
+During Active Periods:
+  Average Occupancy: 69.5%
+  Average Wasted SMs: 17.7
+
+Occupancy Distribution:
+  High (≥80%): 45 time periods
+  Medium (60-80%): 20 time periods
+  Low (<60%): 36 time periods
+
+==============================
+
+wkld 1 60% 
+
+Peak Usage:
+  Maximum SMs Used: 102
+  Maximum GPUs Needed: 15
+  Peak Occupancy: 242.9%
+
+During Active Periods:
+  Average Occupancy: 149.4%
+  Average Wasted SMs: 4.6
+
+Occupancy Distribution:
+  High (≥80%): 97 time periods
+  Medium (60-80%): 7 time periods
+  Low (<60%): 17 time periods
+
+====================================
+
+wkld 2 60% 
+
+Peak Usage:
+  Maximum SMs Used: 130
+  Maximum GPUs Needed: 19
+  Peak Occupancy: 309.5%
+
+During Active Periods:
+  Average Occupancy: 171.4%
+  Average Wasted SMs: 5.3
+
+Occupancy Distribution:
+  High (≥80%): 102 time periods
+  Medium (60-80%): 7 time periods
+  Low (<60%): 18 time periods
+
+====================================
+
+wkld 3 60% 

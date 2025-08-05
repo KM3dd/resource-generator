@@ -1,0 +1,105 @@
+wkld-1 80%
+
+Peak Usage:
+  Maximum SMs Used: 93
+  Maximum GPUs Needed: 14
+  Peak Occupancy: 166.1%
+
+During Active Periods:
+  Average Occupancy: 107.2%
+  Average Wasted SMs: 8.6
+
+Occupancy Distribution:
+  High (≥80%): 90 time periods
+  Medium (60-80%): 7 time periods
+  Low (<60%): 24 time periods
+
+=======================================
+
+  wkld 2 80%
+
+  Peak Usage:
+  Maximum SMs Used: 124
+  Maximum GPUs Needed: 18
+  Peak Occupancy: 221.4%
+
+During Active Periods:
+  Average Occupancy: 126.0%
+  Average Wasted SMs: 8.9
+
+Occupancy Distribution:
+  High (≥80%): 95 time periods
+  Medium (60-80%): 6 time periods
+  Low (<60%): 26 time periods
+====================================================
+
+wkld 3 80 % 
+
+Peak Usage:
+  Maximum SMs Used: 66
+  Maximum GPUs Needed: 10
+  Peak Occupancy: 117.9%
+
+During Active Periods:
+  Average Occupancy: 69.7%
+  Average Wasted SMs: 17.6
+
+Occupancy Distribution:
+  High (≥80%): 46 time periods
+  Medium (60-80%): 18 time periods
+  Low (<60%): 37 time periods
+
+======================================================
+
+wkld 1 60% 
+
+Peak Usage:
+  Maximum SMs Used: 103
+  Maximum GPUs Needed: 15
+  Peak Occupancy: 245.2%
+
+During Active Periods:
+  Average Occupancy: 149.7%
+  Average Wasted SMs: 4.9
+
+Occupancy Distribution:
+  High (≥80%): 97 time periods
+  Medium (60-80%): 6 time periods
+  Low (<60%): 18 time periods
+
+=======================================================
+
+wkld 2 60% 
+
+Peak Usage:
+  Maximum SMs Used: 131
+  Maximum GPUs Needed: 19
+  Peak Occupancy: 311.9%
+
+During Active Periods:
+  Average Occupancy: 175.3%
+  Average Wasted SMs: 4.9
+
+Occupancy Distribution:
+  High (≥80%): 103 time periods
+  Medium (60-80%): 6 time periods
+  Low (<60%): 18 time periods
+
+======================================================
+
+
+wkld 3 60% 
+
+Peak Usage:
+  Maximum SMs Used: 73
+  Maximum GPUs Needed: 11
+  Peak Occupancy: 173.8%
+
+During Active Periods:
+  Average Occupancy: 95.9%
+  Average Wasted SMs: 8.4
+
+Occupancy Distribution:
+  High (≥80%): 63 time periods
+  Medium (60-80%): 17 time periods
+  Low (<60%): 21 time periods

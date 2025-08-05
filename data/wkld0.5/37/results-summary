@@ -1,0 +1,110 @@
+
+
+wkld 1 80% 
+
+Peak Usage:
+  Maximum SMs Used: 253
+  Maximum GPUs Needed: 37
+  Peak Occupancy: 172.1%
+
+During Active Periods:
+  Average Occupancy: 108.2%
+  Average Wasted SMs: 26.2
+
+Occupancy Distribution:
+  High (≥80%): 224 time periods
+  Medium (60-80%): 18 time periods
+  Low (<60%): 70 time periods
+
+===========================================================
+
+wkld 2 80 % 
+
+Peak Usage:
+  Maximum SMs Used: 246
+  Maximum GPUs Needed: 36
+  Peak Occupancy: 167.3%
+
+During Active Periods:
+  Average Occupancy: 101.3%
+  Average Wasted SMs: 27.1
+
+Occupancy Distribution:
+  High (≥80%): 231 time periods
+  Medium (60-80%): 21 time periods
+  Low (<60%): 74 time periods
+  
+===============================================
+
+wkld 3 80% 
+
+Peak Usage:
+  Maximum SMs Used: 196
+  Maximum GPUs Needed: 28
+  Peak Occupancy: 133.3%
+
+During Active Periods:
+  Average Occupancy: 88.4%
+  Average Wasted SMs: 31.9
+
+Occupancy Distribution:
+  High (≥80%): 162 time periods
+  Medium (60-80%): 35 time periods
+  Low (<60%): 64 time periods
+
+==========================================
+wkld 1 60% 
+
+Peak Usage:
+  Maximum SMs Used: 289
+  Maximum GPUs Needed: 42
+  Peak Occupancy: 258.0%
+
+During Active Periods:
+  Average Occupancy: 145.9%
+  Average Wasted SMs: 17.4
+
+Occupancy Distribution:
+  High (≥80%): 235 time periods
+  Medium (60-80%): 18 time periods
+  Low (<60%): 59 time periods
+
+=================================================
+
+
+wkld 2 60% 
+
+Peak Usage:
+  Maximum SMs Used: 93
+  Maximum GPUs Needed: 14
+  Peak Occupancy: 132.9%
+
+During Active Periods:
+  Average Occupancy: 85.8%
+  Average Wasted SMs: 14.5
+
+Occupancy Distribution:
+  High (≥80%): 84 time periods
+  Medium (60-80%): 7 time periods
+  Low (<60%): 30 time periods
+
+  ===========================================================
+
+  wkld 3 60% 
+
+  Peak Usage:
+  Maximum SMs Used: 226
+  Maximum GPUs Needed: 33
+  Peak Occupancy: 201.8%
+
+During Active Periods:
+  Average Occupancy: 126.2%
+  Average Wasted SMs: 15.3
+
+Occupancy Distribution:
+  High (≥80%): 212 time periods
+  Medium (60-80%): 13 time periods
+  Low (<60%): 43 time periods
+
+  =============================================================
+  

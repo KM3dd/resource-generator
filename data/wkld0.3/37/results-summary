@@ -1,0 +1,106 @@
+wkld 1 80% 
+
+Peak Usage:
+  Maximum SMs Used: 127
+  Maximum GPUs Needed: 19
+  Peak Occupancy: 139.6%
+
+During Active Periods:
+  Average Occupancy: 83.3%
+  Average Wasted SMs: 23.6
+
+Occupancy Distribution:
+  High (≥80%): 93 time periods
+  Medium (60-80%): 16 time periods
+  Low (<60%): 50 time periods
+  
+=================================
+
+wkld 2 80% 
+
+Peak Usage:
+  Maximum SMs Used: 134
+  Maximum GPUs Needed: 20
+  Peak Occupancy: 147.3%
+
+During Active Periods:
+  Average Occupancy: 86.8%
+  Average Wasted SMs: 21.1
+
+Occupancy Distribution:
+  High (≥80%): 102 time periods
+  Medium (60-80%): 20 time periods
+  Low (<60%): 46 time periods
+
+
+=======================================
+
+wkld 3 80% 
+
+Peak Usage:
+  Maximum SMs Used: 134
+  Maximum GPUs Needed: 20
+  Peak Occupancy: 147.3%
+
+During Active Periods:
+  Average Occupancy: 86.8%
+  Average Wasted SMs: 21.1
+
+Occupancy Distribution:
+  High (≥80%): 102 time periods
+  Medium (60-80%): 20 time periods
+  Low (<60%): 46 time periods
+
+  ========================================
+
+wkld 1 60% 
+
+Peak Usage:
+  Maximum SMs Used: 132
+  Maximum GPUs Needed: 19
+  Peak Occupancy: 188.6%
+
+During Active Periods:
+  Average Occupancy: 111.9%
+  Average Wasted SMs: 12.2
+
+Occupancy Distribution:
+  High (≥80%): 111 time periods
+  Medium (60-80%): 19 time periods
+  Low (<60%): 29 time periods
+
+  ===========================================
+
+  wkld 2 60% 
+
+  Peak Usage:
+  Maximum SMs Used: 135
+  Maximum GPUs Needed: 20
+  Peak Occupancy: 192.9%
+
+During Active Periods:
+  Average Occupancy: 116.5%
+  Average Wasted SMs: 10.7
+
+Occupancy Distribution:
+  High (≥80%): 118 time periods
+  Medium (60-80%): 24 time periods
+  Low (<60%): 24 time periods
+
+  ==============================================
+
+  wkld 3 60% 
+
+  Peak Usage:
+  Maximum SMs Used: 166
+  Maximum GPUs Needed: 24
+  Peak Occupancy: 237.1%
+
+During Active Periods:
+  Average Occupancy: 133.8%
+  Average Wasted SMs: 8.9
+
+Occupancy Distribution:
+  High (≥80%): 157 time periods
+  Medium (60-80%): 21 time periods
+  Low (<60%): 26 time periods
