@@ -1,0 +1,213 @@
+=================== lambda 0.3 FF 60% ================== 
+--- Overall Waiting Time Statistics ---
+Total pods completed: 80
+Average waiting time: 82.65 seconds
+Minimum waiting time: 0 seconds
+Maximum waiting time: 189 seconds
+Median waiting time: 54.00 seconds
+
+--- Per-Profile Waiting Time Statistics ---
+1g.5gb:
+  Count: 30 pods
+  Average wait time: 50.90 seconds
+  Maximum wait time: 141 seconds
+  Minimum wait time: 0 seconds
+2g.10gb:
+  Count: 19 pods
+  Average wait time: 57.42 seconds
+  Maximum wait time: 140 seconds
+  Minimum wait time: 9 seconds
+3g.20gb:
+  Count: 15 pods
+  Average wait time: 66.00 seconds
+  Maximum wait time: 140 seconds
+  Minimum wait time: 12 seconds
+4g.20gb:
+  Count: 9 pods
+  Average wait time: 94.11 seconds
+  Maximum wait time: 189 seconds
+  Minimum wait time: 16 seconds
+7g.40gb:
+  Count: 7 pods
+  Average wait time: 113.86 seconds
+  Maximum wait time: 176 seconds
+  Minimum wait time: 10 seconds
+
+===============================================
+
+--- Overall Waiting Time Statistics ---
+Total pods completed: 85
+Average waiting time: 96.07 seconds
+Minimum waiting time: 0 seconds
+Maximum waiting time: 270 seconds
+Median waiting time: 49.00 seconds
+
+--- Per-Profile Waiting Time Statistics ---
+1g.5gb:
+  Count: 32 pods
+  Average wait time: 30.00 seconds
+  Maximum wait time: 60 seconds
+  Minimum wait time: 1 seconds
+2g.10gb:
+  Count: 22 pods
+  Average wait time: 101.59 seconds
+  Maximum wait time: 215 seconds
+  Minimum wait time: 5 seconds
+3g.20gb:
+  Count: 13 pods
+  Average wait time: 67.00 seconds
+  Maximum wait time: 214 seconds
+  Minimum wait time: 0 seconds
+4g.20gb:
+  Count: 13 pods
+  Average wait time: 97.38 seconds
+  Maximum wait time: 259 seconds
+  Minimum wait time: 5 seconds
+7g.40gb:
+  Count: 5 pods
+  Average wait time: 209.80 seconds
+  Maximum wait time: 270 seconds
+  Minimum wait time: 150 seconds
+
+===========================================================
+
+--- Overall Waiting Time Statistics ---
+Total pods completed: 103
+Average waiting time: 98.19 seconds
+Minimum waiting time: 0 seconds
+Maximum waiting time: 327 seconds
+Median waiting time: 58.00 seconds
+
+--- Per-Profile Waiting Time Statistics ---
+1g.5gb:
+  Count: 43 pods
+  Average wait time: 57.42 seconds
+  Maximum wait time: 126 seconds
+  Minimum wait time: 3 seconds
+2g.10gb:
+  Count: 25 pods
+  Average wait time: 66.40 seconds
+  Maximum wait time: 156 seconds
+  Minimum wait time: 0 seconds
+3g.20gb:
+  Count: 18 pods
+  Average wait time: 86.39 seconds
+  Maximum wait time: 206 seconds
+  Minimum wait time: 2 seconds
+4g.20gb:
+  Count: 13 pods
+  Average wait time: 161.92 seconds
+  Maximum wait time: 327 seconds
+  Minimum wait time: 8 seconds
+7g.40gb:
+  Count: 4 pods
+  Average wait time: 195.00 seconds
+  Maximum wait time: 275 seconds
+  Minimum wait time: 45 seconds
+
+================ lambda 0.3 FF 80% =============== 
+
+--- Overall Waiting Time Statistics ---
+Total pods completed: 80
+Average waiting time: 92.40 seconds
+Minimum waiting time: 0 seconds
+Maximum waiting time: 129 seconds
+Median waiting time: 40.00 seconds
+
+--- Per-Profile Waiting Time Statistics ---
+1g.5gb:
+  Count: 30 pods
+  Average wait time: 30.90 seconds
+  Maximum wait time: 68 seconds
+  Minimum wait time: 0 seconds
+2g.10gb:
+  Count: 19 pods
+  Average wait time: 47.95 seconds
+  Maximum wait time: 110 seconds
+  Minimum wait time: 9 seconds
+3g.20gb:
+  Count: 15 pods
+  Average wait time: 46.00 seconds
+  Maximum wait time: 107 seconds
+  Minimum wait time: 12 seconds
+4g.20gb:
+  Count: 9 pods
+  Average wait time: 67.44 seconds
+  Maximum wait time: 129 seconds
+  Minimum wait time: 16 seconds
+7g.40gb:
+  Count: 7 pods
+  Average wait time: 36.71 seconds
+  Maximum wait time: 66 seconds
+  Minimum wait time: 10 seconds
+
+==================================================
+
+--- Overall Waiting Time Statistics ---
+Total pods completed: 85
+Average waiting time: 86.13 seconds
+Minimum waiting time: 0 seconds
+Maximum waiting time: 210 seconds
+Median waiting time: 37.00 seconds
+
+--- Per-Profile Waiting Time Statistics ---
+1g.5gb:
+  Count: 32 pods
+  Average wait time: 30.00 seconds
+  Maximum wait time: 60 seconds
+  Minimum wait time: 1 seconds
+2g.10gb:
+  Count: 22 pods
+  Average wait time: 49.77 seconds
+  Maximum wait time: 121 seconds
+  Minimum wait time: 0 seconds
+3g.20gb:
+  Count: 13 pods
+  Average wait time: 25.46 seconds
+  Maximum wait time: 68 seconds
+  Minimum wait time: 0 seconds
+4g.20gb:
+  Count: 13 pods
+  Average wait time: 69.69 seconds
+  Maximum wait time: 166 seconds
+  Minimum wait time: 5 seconds
+7g.40gb:
+  Count: 5 pods
+  Average wait time: 125.80 seconds
+  Maximum wait time: 210 seconds
+  Minimum wait time: 30 seconds
+==================================================
+
+--- Overall Waiting Time Statistics ---
+Total pods completed: 103
+Average waiting time: 79.16 seconds
+Minimum waiting time: 0 seconds
+Maximum waiting time: 256 seconds
+Median waiting time: 46.00 seconds
+
+--- Per-Profile Waiting Time Statistics ---
+1g.5gb:
+  Count: 43 pods
+  Average wait time: 37.88 seconds
+  Maximum wait time: 69 seconds
+  Minimum wait time: 3 seconds
+2g.10gb:
+  Count: 25 pods
+  Average wait time: 37.60 seconds
+  Maximum wait time: 66 seconds
+  Minimum wait time: 0 seconds
+3g.20gb:
+  Count: 18 pods
+  Average wait time: 49.72 seconds
+  Maximum wait time: 141 seconds
+  Minimum wait time: 2 seconds
+4g.20gb:
+  Count: 13 pods
+  Average wait time: 83.46 seconds
+  Maximum wait time: 161 seconds
+  Minimum wait time: 8 seconds
+7g.40gb:
+  Count: 4 pods
+  Average wait time: 180.00 seconds
+  Maximum wait time: 256 seconds
+  Minimum wait time: 45 seconds

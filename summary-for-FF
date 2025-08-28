@@ -1,0 +1,448 @@
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 6
+Loading data from results-test.json...
+Loaded 29 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 6
+Total SMs Available: 42
+Analysis Duration: 588.2 seconds
+Total Pods Processed: 29
+
+Peak Usage:
+  Maximum SMs Used: 43
+  Maximum GPUs Needed: 7
+  Peak Occupancy: 102.4%
+
+During Active Periods:
+  Average Occupancy: 61.2%
+  Average Wasted SMs: 16.3
+
+Occupancy Distribution:
+  High (≥80%): 20 time periods
+  Medium (60-80%): 12 time periods
+  Low (<60%): 25 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 6
+Loading data from results-test.json...
+Loaded 29 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 6
+Total SMs Available: 42
+Analysis Duration: 588.2 seconds
+Total Pods Processed: 29
+
+Peak Usage:
+  Maximum SMs Used: 43
+  Maximum GPUs Needed: 7
+  Peak Occupancy: 102.4%
+
+During Active Periods:
+  Average Occupancy: 61.2%
+  Average Wasted SMs: 16.3
+
+Occupancy Distribution:
+  High (≥80%): 20 time periods
+  Medium (60-80%): 12 time periods
+  Low (<60%): 25 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 6
+Loading data from results-test.json...
+Loaded 64 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 6
+Total SMs Available: 42
+Analysis Duration: 801.1 seconds
+Total Pods Processed: 64
+
+Peak Usage:
+  Maximum SMs Used: 118
+  Maximum GPUs Needed: 17
+  Peak Occupancy: 281.0%
+
+During Active Periods:
+  Average Occupancy: 165.3%
+  Average Wasted SMs: 4.7
+
+Occupancy Distribution:
+  High (≥80%): 103 time periods
+  Medium (60-80%): 8 time periods
+  Low (<60%): 16 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 6
+Loading data from results-test.json...
+Loaded 51 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 6
+Total SMs Available: 42
+Analysis Duration: 701.1 seconds
+Total Pods Processed: 51
+
+Peak Usage:
+  Maximum SMs Used: 62
+  Maximum GPUs Needed: 9
+  Peak Occupancy: 147.6%
+
+During Active Periods:
+  Average Occupancy: 81.0%
+  Average Wasted SMs: 10.5
+
+Occupancy Distribution:
+  High (≥80%): 56 time periods
+  Medium (60-80%): 16 time periods
+  Low (<60%): 29 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 8
+Loading data from results-test.json...
+Loaded 61 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 8
+Total SMs Available: 56
+Analysis Duration: 784.1 seconds
+Total Pods Processed: 61
+
+Peak Usage:
+  Maximum SMs Used: 84
+  Maximum GPUs Needed: 12
+  Peak Occupancy: 150.0%
+
+During Active Periods:
+  Average Occupancy: 93.4%
+  Average Wasted SMs: 10.1
+
+Occupancy Distribution:
+  High (≥80%): 86 time periods
+  Medium (60-80%): 8 time periods
+  Low (<60%): 27 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 8
+Loading data from results-test.json...
+Loaded 64 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 8
+Total SMs Available: 56
+Analysis Duration: 874.1 seconds
+Total Pods Processed: 64
+
+Peak Usage:
+  Maximum SMs Used: 100
+  Maximum GPUs Needed: 15
+  Peak Occupancy: 178.6%
+
+During Active Periods:
+  Average Occupancy: 113.3%
+  Average Wasted SMs: 8.9
+
+Occupancy Distribution:
+  High (≥80%): 97 time periods
+  Medium (60-80%): 4 time periods
+  Low (<60%): 26 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 8
+Loading data from results-test.json...
+Loaded 64 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 8
+Total SMs Available: 56
+Analysis Duration: 874.1 seconds
+Total Pods Processed: 64
+
+Peak Usage:
+  Maximum SMs Used: 100
+  Maximum GPUs Needed: 15
+  Peak Occupancy: 178.6%
+
+During Active Periods:
+  Average Occupancy: 113.3%
+  Average Wasted SMs: 8.9
+
+Occupancy Distribution:
+  High (≥80%): 97 time periods
+  Medium (60-80%): 4 time periods
+  Low (<60%): 26 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 8
+Loading data from results-test.json...
+Loaded 51 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 8
+Total SMs Available: 56
+Analysis Duration: 607.1 seconds
+Total Pods Processed: 51
+
+Peak Usage:
+  Maximum SMs Used: 61
+  Maximum GPUs Needed: 9
+  Peak Occupancy: 108.9%
+
+During Active Periods:
+  Average Occupancy: 59.6%
+  Average Wasted SMs: 22.7
+
+Occupancy Distribution:
+  High (≥80%): 23 time periods
+  Medium (60-80%): 33 time periods
+  Low (<60%): 45 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 10
+Loading data from results-test.json...
+Loaded 80 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 10
+Total SMs Available: 70
+Analysis Duration: 808.2 seconds
+Total Pods Processed: 80
+
+Peak Usage:
+  Maximum SMs Used: 119
+  Maximum GPUs Needed: 17
+  Peak Occupancy: 170.0%
+
+During Active Periods:
+  Average Occupancy: 100.6%
+  Average Wasted SMs: 15.1
+
+Occupancy Distribution:
+  High (≥80%): 100 time periods
+  Medium (60-80%): 16 time periods
+  Low (<60%): 43 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 10
+Loading data from results-test.json...
+Loaded 85 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 10
+Total SMs Available: 70
+Analysis Duration: 662.1 seconds
+Total Pods Processed: 85
+
+Peak Usage:
+  Maximum SMs Used: 125
+  Maximum GPUs Needed: 18
+  Peak Occupancy: 178.6%
+
+During Active Periods:
+  Average Occupancy: 101.7%
+  Average Wasted SMs: 13.0
+
+Occupancy Distribution:
+  High (≥80%): 114 time periods
+  Medium (60-80%): 20 time periods
+  Low (<60%): 35 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 10
+Loading data from results-test.json...
+Loaded 103 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 10
+Total SMs Available: 70
+Analysis Duration: 756.1 seconds
+Total Pods Processed: 103
+
+Peak Usage:
+  Maximum SMs Used: 144
+  Maximum GPUs Needed: 21
+  Peak Occupancy: 205.7%
+
+During Active Periods:
+  Average Occupancy: 116.8%
+  Average Wasted SMs: 10.7
+
+Occupancy Distribution:
+  High (≥80%): 143 time periods
+  Medium (60-80%): 32 time periods
+  Low (<60%): 30 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 13
+Loading data from results-test.json...
+Loaded 80 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 13
+Total SMs Available: 91
+Analysis Duration: 840.2 seconds
+Total Pods Processed: 80
+
+Peak Usage:
+  Maximum SMs Used: 121
+  Maximum GPUs Needed: 18
+  Peak Occupancy: 133.0%
+
+During Active Periods:
+  Average Occupancy: 78.5%
+  Average Wasted SMs: 26.6
+
+Occupancy Distribution:
+  High (≥80%): 77 time periods
+  Medium (60-80%): 23 time periods
+  Low (<60%): 59 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 13
+Loading data from results-test.json...
+Loaded 85 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 13
+Total SMs Available: 91
+Analysis Duration: 683.2 seconds
+Total Pods Processed: 85
+
+Peak Usage:
+  Maximum SMs Used: 125
+  Maximum GPUs Needed: 18
+  Peak Occupancy: 137.4%
+
+During Active Periods:
+  Average Occupancy: 78.4%
+  Average Wasted SMs: 24.9
+
+Occupancy Distribution:
+  High (≥80%): 83 time periods
+  Medium (60-80%): 32 time periods
+  Low (<60%): 54 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 13
+Loading data from results-test.json...
+Loaded 103 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 13
+Total SMs Available: 91
+Analysis Duration: 791.2 seconds
+Total Pods Processed: 103
+
+Peak Usage:
+  Maximum SMs Used: 139
+  Maximum GPUs Needed: 20
+  Peak Occupancy: 152.7%
+
+During Active Periods:
+  Average Occupancy: 87.1%
+  Average Wasted SMs: 22.2
+
+Occupancy Distribution:
+  High (≥80%): 107 time periods
+  Medium (60-80%): 36 time periods
+  Low (<60%): 61 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 16
+Loading data from results-test.json...
+Loaded 158 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 16
+Total SMs Available: 112
+Analysis Duration: 873.6 seconds
+Total Pods Processed: 158
+
+Peak Usage:
+  Maximum SMs Used: 242
+  Maximum GPUs Needed: 35
+  Peak Occupancy: 216.1%
+
+During Active Periods:
+  Average Occupancy: 134.8%
+  Average Wasted SMs: 13.4
+
+Occupancy Distribution:
+  High (≥80%): 253 time periods
+  Medium (60-80%): 12 time periods
+  Low (<60%): 49 time periods
+
+Generating visualizations...
+znlr1757@yd-1h84411rmw:~/khaled/resource-generator$ python3 scripts/vizualise-2.py results-test.json 16
+Loading data from results-test.json...
+Loaded 158 pods
+Calculating occupancy timeline...
+
+============================================================
+GPU OCCUPANCY ANALYSIS SUMMARY
+============================================================
+Total GPUs Available: 16
+Total SMs Available: 112
+Analysis Duration: 918.2 seconds
+Total Pods Processed: 158
+
+Peak Usage:
+  Maximum SMs Used: 246
+  Maximum GPUs Needed: 36
+  Peak Occupancy: 219.6%
+
+During Active Periods:
+  Average Occupancy: 137.4%
+  Average Wasted SMs: 13.2
+
+Occupancy Distribution:
+  High (≥80%): 252 time periods
+  Medium (60-80%): 13 time periods
+  Low (<60%): 47 time periods
+
+Generating visualizations...
